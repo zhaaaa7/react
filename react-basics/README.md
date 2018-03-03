@@ -1,1 +1,21 @@
-ff
+1. setup
+   concepts:
+    dependency  management tools: npm /yarn 
+    dependency: third-party library (react, npm, yarn)
+    bundler: bundle all modules (webpack)
+    compiler: babel
+   process
+    Download node.js to run npm
+    https://github.com/facebook/create-react-app
+
+3. react concepts:
+jsx is js in the end. it is a syntactic sugar for nested React.createElement.
+return (<div className="App"> <h1>hello world</h1></div>);
+====>
+    return React.createElement('div',{className:'App'},React.createElement('h1',null,'hello world'));
+    
+    
+Attributes of the user-defined component instances are passed to the user-written code as the one argument: props. Pass the text between the opening and closing tags of the component: props.children
+
+
+Wrap js code using {} in jsx
