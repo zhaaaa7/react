@@ -13,7 +13,6 @@
 
 1. jsx 
 
-
 JSX is js in the end. it is a syntactic sugar for nested React.createElement.
 
 ```
@@ -34,6 +33,18 @@ Attributes of the user-defined component instances are passed to the user-writte
 
 props.children let you pass the 'text' between the opening and closing tags of the component.
 
+You can pass method reference also as props to avoid too much stateful components.
+```
+return <Person
+            click={()=>this.deletePersonHandler(index)} //can be inefficient
+            click={this.deletePersonHandler.bind(this.index)} 
+            name={person.name}
+            age={person.age}
+            key={person.id}
+            changed={(event)=>this.nameChangedHandler(event,person.id)}
+            />
+```
+
 3. state 
 
 It is a reserved word in classes component.It is an object that manages component internal data and change the component from within. If changed, react will update the DOM. 
@@ -51,5 +62,17 @@ state={
 ```
 <Person name={this.state.person[0].name} age={this.state.person[0].age}>hello</Person>
 ```
-
+arrow function ensures "this" refers to the component.
+Update, not mutate the state
 setState() will merge the new state into the old one: compare and update what is changed.
+
+4. two way binding
+```javascript
+nameChangedHandler=(event)=>{
+    this.setState({person:[
+        {name:'max', age:28},
+        {name:event.target.value, age:18},
+        {name:'judy', age:22},
+   ]});
+}
+  ```
