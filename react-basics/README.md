@@ -1,12 +1,12 @@
 ## setup
 1. concepts: 
-*dependency management tools: npm /yarn 
-*dependency: third-party library (react, npm, yarn)
+* dependency management tools: npm /yarn 
+* dependency: third-party library (react, npm, yarn)
 * bundler: bundle all modules (webpack)
 * compiler: babel
 2. process
-*Download node.js to run npm
-*https://github.com/facebook/create-react-app
+* Download node.js to run npm
+* https://github.com/facebook/create-react-app
     
     
 ## react concepts:
