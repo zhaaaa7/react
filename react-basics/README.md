@@ -15,13 +15,13 @@
 
 JSX is js in the end. it is a syntactic sugar for nested React.createElement.
 
-```
+```javascript
 return (<div className="App"> <h1>hello world</h1></div>);
 ====>
 return React.createElement('div',{className:'App'},React.createElement('h1',null,'hello world'));
 ```   
 Wrap js code using {} in jsx
-```
+```javascript
 <div className="Person" style={style}>
 ```
 
@@ -34,7 +34,7 @@ Attributes of the user-defined component instances are passed to the user-writte
 props.children let you pass the 'text' between the opening and closing tags of the component.
 
 You can pass method reference also as props to avoid too much stateful components.
-```
+```javascript
 return <Person
             click={()=>this.deletePersonHandler(index)} //can be inefficient
             click={this.deletePersonHandler.bind(this.index)} 
@@ -83,12 +83,12 @@ nameChangedHandler=(event)=>{
 
 The .css file is in gobal scope, so use the same as component to avoid mistakes.
 Import css file
-```
+```javascript
 import './Person.css';
 ```
 
 inline style, pat attention to property name and ''
-```
+```javascript
 const style={
       backgroundColor:'green',
       font:'inherit',
@@ -105,12 +105,12 @@ const style={
 
 6. conditional rendering
 inside jsx tenary expression
-```
+```javascript
 {this.state.show ? <div>...</div> : null}
 ```
 
 before render
-```
+```javascript
 let person=null;
 if(this.state.showPersons){
     person=(<div>...</div> );
@@ -122,11 +122,12 @@ if(this.state.showPersons){
  person=(<div>
         {this.state.persons.map((person,index)=>{
           return <Person
+            key={person.id}
             click={()=>this.deletePersonHandler(index)} //should be a function expression
             name={person.name}
-            age={person.age}
-            key={person.id}
+            age={person.age}           
             changed={(event)=>this.nameChangedHandler(event,person.id)}
             />
         })}
   ```
+  key property is required to make the render proecess more efficient: react track each list item here
