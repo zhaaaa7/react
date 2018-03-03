@@ -42,5 +42,10 @@ Attributes of the user-defined component instances are passed to the user-writte
 
 Wrap js code using {} in jsx
 
-State is a reserved word in classes cthat “extends Component”, an object, if we want to manage component internal data.setState will merge the new state into the old one: compare and update what is changed
+state is a reserved word in classes component that “extends Component”, an object. if we want to manage component internal data.setState will merge the new state into the old one: compare and update what is changed
+
+```javascript
+var s = "JavaScript syntax highlighting";
+alert(s);
+```
 
