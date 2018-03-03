@@ -62,9 +62,8 @@ state={
 ```
 <Person name={this.state.person[0].name} age={this.state.person[0].age}>hello</Person>
 ```
-arrow function ensures "this" refers to the component.
-Update, not mutate the state
-setState() will merge the new state into the old one: compare and update what is changed.
+Arrow function ensures "this" refers to the component.
+Update, not mutate the state. setState() will merge the new state into the old one: compare and update what is changed.
 
 4. two way binding
 ```javascript
@@ -82,12 +81,11 @@ nameChangedHandler=(event)=>{
 5. styling
 
 The .css file is in gobal scope, so use the same as component to avoid mistakes.
-Import css file
+* Import css file
 ```javascript
 import './Person.css';
 ```
-
-inline style, pat attention to property name and ''
+* Inline style, pat attention to property name and ''
 ```javascript
 const style={
       backgroundColor:'green',
@@ -99,39 +97,7 @@ const style={
     };
 <button style={style}> Submit </button>
 ```
-
-6. conditional rendering
-inside jsx tenary expression
-```javascript
-{this.state.show ? <div>...</div> : null}
-```
-
-before render
-```javascript
-let person=null;
-if(this.state.showPersons){
-    person=(<div>...</div> );
-}
- ```
- 
- 7. display a list of components
- ```javascript
- person=(<div>
-        {this.state.persons.map((person,index)=>{
-            return <Person
-            key={person.id}
-            click={()=>this.deletePersonHandler(index)} //should be a function expression
-            name={person.name}
-            age={person.age}           
-            changed={(event)=>this.nameChangedHandler(event,person.id)}
-            />
-        })}
-        </div> 
-      );
-  ```
-key property is required to make the render proecess more efficient: react track each list item here
-  
-dynamic
+* Dynamic styling
 ```javascript
 if(this.state.showPersons){
         .......
@@ -149,7 +115,7 @@ let classGroup=[];
 <p className={classGroup.join(' ')}>dynamically changed css</p>
 ```
 
-more options with radium package --sudo class and media query
+* More options with radium package --sudo class and media query
 [radium](https://github.com/FormidableLabs/radium)
 
 ```
@@ -180,3 +146,35 @@ style[':hover']={
             color:'white'
         }
 ```
+
+6. conditional rendering
+* Inside jsx tenary expression
+```javascript
+{this.state.show ? <div>...</div> : null}
+```
+* Before render
+```javascript
+let person=null;
+if(this.state.showPersons){
+    person=(<div>...</div> );
+}
+ ```
+ 
+ 7. display a list of components
+ ```javascript
+ person=(<div>
+        {this.state.persons.map((person,index)=>{
+            return <Person
+            key={person.id}
+            click={()=>this.deletePersonHandler(index)} //should be a function expression
+            name={person.name}
+            age={person.age}           
+            changed={(event)=>this.nameChangedHandler(event,person.id)}
+            />
+        })}
+        </div> 
+      );
+  ```
+key property is required to make the render proecess more efficient: react track each list item here
+  
+
