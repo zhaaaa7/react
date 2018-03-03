@@ -54,4 +54,6 @@ state={
     showPersons:true
   };
 ```
-
+```
+<Person name={this.state.person[0].name} age={this.state.person[0].age}>hello</Person>
+```
