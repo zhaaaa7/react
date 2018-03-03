@@ -39,14 +39,19 @@ return (<div className="App"> <h1>hello world</h1></div>);
 return React.createElement('div',{className:'App'},React.createElement('h1',null,'hello world'));
 ```   
 Wrap js code using {} in jsx
+```
+<div className="Person" style={style}>
+```
 
 2. props
+Allow you to pass data from a parent (wrapping) component to a child (embedded) component.
 
-Attributes of the user-defined component instances are passed to the user-written code as the one argument: props. Pass the text between the opening and closing tags of the component: props.children
+Attributes of the user-defined component instances are passed to the user-written code as the one argument: props. 
+
+props.children let you pass the 'text' between the opening and closing tags of the component.
 
 3. state 
-
-is a reserved word in classes component that “extends Component”, an object, which manages component internal data. If changed, react will update the DOM. setState() will merge the new state into the old one: compare and update what is changed
+It is a reserved word in classes component.It is an object that manages component internal data and change the component from within. If changed, react will update the DOM. 
 
 ```javascript
 state={
@@ -61,3 +66,5 @@ state={
 ```
 <Person name={this.state.person[0].name} age={this.state.person[0].age}>hello</Person>
 ```
+
+setState() will merge the new state into the old one: compare and update what is changed.
