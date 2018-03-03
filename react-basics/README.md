@@ -45,7 +45,13 @@ Wrap js code using {} in jsx
 state is a reserved word in classes component that “extends Component”, an object. if we want to manage component internal data.setState will merge the new state into the old one: compare and update what is changed
 
 ```javascript
-var s = "JavaScript syntax highlighting";
-alert(s);
+state={
+    persons:[
+      {id:'good',name:'max', age:28},
+      {id:'bad',name:'menu', age:18},
+      {id:'excellent',name:'judy', age:220},
+    ],
+    showPersons:true
+  };
 ```
 
