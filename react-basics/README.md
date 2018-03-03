@@ -1,37 +1,18 @@
-1. setup
-
-
-   concepts:
-   
-   
-    dependency  management tools: npm /yarn 
+## setup
+1. concepts: 
+*dependency management tools: npm /yarn 
+*dependency: third-party library (react, npm, yarn)
+* bundler: bundle all modules (webpack)
+* compiler: babel
+2. process
+*Download node.js to run npm
+*https://github.com/facebook/create-react-app
     
     
-    dependency: third-party library (react, npm, yarn)
-    
-    
-    bundler: bundle all modules (webpack)
-    
-    
-    compiler: babel
-    
-    
-   process
-   
-   
-    Download node.js to run npm
-    
-    
-    https://github.com/facebook/create-react-app
-    
-    
-
 ## react concepts:
 
-
 1. jsx 
-
-is js in the end. it is a syntactic sugar for nested React.createElement.
+JSX is js in the end. it is a syntactic sugar for nested React.createElement.
 
 ```
 return (<div className="App"> <h1>hello world</h1></div>);
