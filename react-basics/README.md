@@ -145,3 +145,21 @@ if(this.state.showPersons){
         }
     }
 ```
+```javascript
+let classGroup=[];
+    if (this.state.persons.length<=2){
+        classGroup.push('red');
+    }
+    if (this.state.persons.length<=1){
+      classGroup.push('bold');
+    }
+<p className={classGroup.join(' ')}>dynamically changed css</p>
+```
+
+more options with radium package --sudo class and media query
+```
+npm install --save redium
+
+import Radium , {StyleRoot} from 'radium';
+export default Radium(App);
+```
