@@ -95,9 +95,6 @@ const style={
       border:'1px solid blue',
       padding:'10px',
       cursor:'pointer',
-      ':hover':{
-        backgroundColor:'lightgreen',
-        color:'white'
       }
     };
 <button style={style}> Submit </button>
@@ -137,12 +134,8 @@ key property is required to make the render proecess more efficient: react track
 dynamic
 ```javascript
 if(this.state.showPersons){
-        <code>
+        .......
         style.backgroundColor='red'; //dynamically change the style
-        style[':hover']={
-            backgroundColor:'black',
-            color:'white'
-        }
     }
 ```
 ```javascript
@@ -162,4 +155,26 @@ npm install --save redium
 
 import Radium , {StyleRoot} from 'radium';
 export default Radium(App);
+```
+```javascript
+const style={
+        backgroundColor:'green',
+        font:'inherit',
+        border:'1px solid blue',
+        padding:'10px',
+        cursor:'pointer',
+        ':hover':{
+          backgroundColor:'lightgreen',
+          color:'white'
+        }
+        
+const style={
+    '@media (min-width:800px)':{
+      backgroundColor:'red'
+    }
+    
+style[':hover']={
+            backgroundColor:'black',
+            color:'white'
+        }
 ```
