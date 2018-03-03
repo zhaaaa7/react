@@ -12,6 +12,8 @@
 ## react concepts:
 
 1. jsx 
+
+
 JSX is js in the end. it is a syntactic sugar for nested React.createElement.
 
 ```
@@ -25,6 +27,7 @@ Wrap js code using {} in jsx
 ```
 
 2. props
+
 Allow you to pass data from a parent (wrapping) component to a child (embedded) component.
 
 Attributes of the user-defined component instances are passed to the user-written code as the one argument: props. 
@@ -32,6 +35,7 @@ Attributes of the user-defined component instances are passed to the user-writte
 props.children let you pass the 'text' between the opening and closing tags of the component.
 
 3. state 
+
 It is a reserved word in classes component.It is an object that manages component internal data and change the component from within. If changed, react will update the DOM. 
 
 ```javascript
