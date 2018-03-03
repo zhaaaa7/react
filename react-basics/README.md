@@ -121,7 +121,7 @@ if(this.state.showPersons){
  ```javascript
  person=(<div>
         {this.state.persons.map((person,index)=>{
-          return <Person
+            return <Person
             key={person.id}
             click={()=>this.deletePersonHandler(index)} //should be a function expression
             name={person.name}
@@ -129,5 +129,7 @@ if(this.state.showPersons){
             changed={(event)=>this.nameChangedHandler(event,person.id)}
             />
         })}
+        </div> 
+      );
   ```
   key property is required to make the render proecess more efficient: react track each list item here
