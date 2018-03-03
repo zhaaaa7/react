@@ -87,7 +87,7 @@ Import css file
 import './Person.css';
 ```
 
-inline style
+inline style, pat attention to property name and ''
 ```
 const style={
       backgroundColor:'green',
@@ -103,3 +103,30 @@ const style={
 <button style={style}> Submit </button>
 ```
 
+6. conditional rendering
+inside jsx tenary expression
+```
+{this.state.show ? <div>...</div> : null}
+```
+
+before render
+```
+let person=null;
+if(this.state.showPersons){
+    person=(<div>...</div> );
+}
+ ```
+ 
+ 7. display a list of components
+ ```javascript
+ person=(<div>
+        {this.state.persons.map((person,index)=>{
+          return <Person
+            click={()=>this.deletePersonHandler(index)} //should be a function expression
+            name={person.name}
+            age={person.age}
+            key={person.id}
+            changed={(event)=>this.nameChangedHandler(event,person.id)}
+            />
+        })}
+  ```
