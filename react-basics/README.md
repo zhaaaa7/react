@@ -75,4 +75,7 @@ nameChangedHandler=(event)=>{
         {name:'judy', age:22},
    ]});
 }
-  ```
+
+<input type="text" onChange={props.changed} value={props.name}/>
+
+```
