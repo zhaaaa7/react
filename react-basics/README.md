@@ -150,7 +150,8 @@ let classGroup=[];
 ```
 
 more options with radium package --sudo class and media query
-https://github.com/FormidableLabs/radium
+[radium](https://github.com/FormidableLabs/radium)
+
 ```
 npm install --save redium
 
