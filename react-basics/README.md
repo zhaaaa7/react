@@ -79,3 +79,27 @@ nameChangedHandler=(event)=>{
 <input type="text" onChange={props.changed} value={props.name}/>
 
 ```
+5. styling
+
+The .css file is in gobal scope, so use the same as component to avoid mistakes.
+Import css file
+```
+import './Person.css';
+```
+
+inline style
+```
+const style={
+      backgroundColor:'green',
+      font:'inherit',
+      border:'1px solid blue',
+      padding:'10px',
+      cursor:'pointer',
+      ':hover':{
+        backgroundColor:'lightgreen',
+        color:'white'
+      }
+    };
+<button style={style}> Submit </button>
+```
+
