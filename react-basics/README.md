@@ -26,23 +26,27 @@
     
     
 
-3. react concepts:
+## react concepts:
 
 
-jsx is js in the end. it is a syntactic sugar for nested React.createElement.
+1. jsx 
 
+is js in the end. it is a syntactic sugar for nested React.createElement.
 
+```
 return (<div className="App"> <h1>hello world</h1></div>);
 ====>
-    return React.createElement('div',{className:'App'},React.createElement('h1',null,'hello world'));
-    
-    
-Attributes of the user-defined component instances are passed to the user-written code as the one argument: props. Pass the text between the opening and closing tags of the component: props.children
-
-
+return React.createElement('div',{className:'App'},React.createElement('h1',null,'hello world'));
+```   
 Wrap js code using {} in jsx
 
-state is a reserved word in classes component that “extends Component”, an object. if we want to manage component internal data.setState will merge the new state into the old one: compare and update what is changed
+2. props
+
+Attributes of the user-defined component instances are passed to the user-written code as the one argument: props. Pass the text between the opening and closing tags of the component: props.children
+
+3. state 
+
+is a reserved word in classes component that “extends Component”, an object, which manages component internal data. If changed, react will update the DOM. setState() will merge the new state into the old one: compare and update what is changed
 
 ```javascript
 state={
