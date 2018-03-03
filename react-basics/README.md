@@ -133,3 +133,14 @@ if(this.state.showPersons){
       );
   ```
   key property is required to make the render proecess more efficient: react track each list item here
+  
+  dynamic
+  ```if(this.state.showPersons){
+        ...
+        style.backgroundColor='red'; //dynamically change the style
+        style[':hover']={
+            backgroundColor:'black',
+            color:'white'
+        }
+    }
+```
