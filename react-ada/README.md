@@ -54,6 +54,8 @@ and webpack.config.prod.js
           .....
 }
 ```
+Behind the scene, the css loader append 'local__hash:base64:5' on the css seletor to make it unique.
+
 3. use 
 ```javascript
 import classes from './App.css';
