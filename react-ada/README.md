@@ -186,7 +186,9 @@ Person.propTypes={
   changed:PropTypes.func
 };
 ```
-8. 'ref' keyword. Use for focusing text input.
+8. 'ref' keyword. https://reactjs.org/docs/refs-and-the-dom.html
+
+Use for focusing text input.
 
 ```jsx
 componentDidMount(){
