@@ -57,13 +57,27 @@ and webpack.config.prod.js
 Behind the scene, the css loader append 'local__hash:base64:5' to each css seletor to make it unique.
 
 3. use 
+
+css file
 ```css
 .App {
   text-align: center;
 }
 ```
+js file
 ```javascript
 import classes from './App.css';
 
 <div className={classes.App}>
+```
+in the browser
+```css
+<div class="App__App__2NQx7">
+```
+to define a global styling rule
+```css
+:global .App { ... }
+```
+```javascript
+<div className="App">
 ```
