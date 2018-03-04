@@ -125,6 +125,7 @@ These methods will never called through DOM events, so no 'this' keyword issue.
 setState() will cause the re-rendering even if there is nothing changed, i.e always the setting the same value. So you need to use componentShouldUpdate() in children components to check nextProps.xxx===this.props.xxx, nextState.xxx===this.State.xxx. Here, PureComponent has built-in componentShouldUpdate() check rules. Children components will benefit from the parent PureComponent.
 4. virtual DOM
 5. higher order component 
+* type 1
 ```javascript
 const aux=(props)=>props.children;
 export default aux;
@@ -139,10 +140,26 @@ export default aux;
     </button>
 </Aux>
 ```
-In react 16.2
+In react 16.2, there is built-in fragment
 ```jsx
 <>
     <h1>First Element</h1>
     <h1>Second Element</h1>
 </>
+```
+* type 2
+``` javascript
+import React from 'react';
+const wrapClass=(WrappedComponent,className)=>{
+    return(props)=>(
+        <div className={className}>
+            <WrappedComponent {...props}/>
+        </div>
+    )
+};
+
+export default wrapClass;
+```
+```javascript
+export default wrapClass(person,classes.Person);
 ```
