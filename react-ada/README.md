@@ -84,3 +84,23 @@ to define a global styling rule
 ```javascript
 <div className="App">
 ```
+## Debugging
+1. react-dev-tool https://github.com/facebook/react-devtools
+1. error boundary component https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html
+```javascript
+...
+state={
+        hasError:false,
+        errorMessage:''
+    }
+
+    componentDidCatch=(error,info)=>{
+        this.setState(
+            {
+                hasError:true,
+                errorMessage:error
+            }
+        );
+    }
+...
+```
