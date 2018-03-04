@@ -4,7 +4,7 @@ To scope the css file to each component, not globally
 ```
 https://github.com/gajus/react-css-modules
 ```
-#### set up
+### Set Up
 1. eject 
 ```
 npm run ejct
@@ -56,7 +56,7 @@ and webpack.config.prod.js
 ```
 Behind the scene, the css loader append 'local__hash:base64:5' to each css seletor to make it unique.
 
-#### usage
+### Usage
 
 css file
 ```css
