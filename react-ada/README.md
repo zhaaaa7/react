@@ -173,6 +173,7 @@ export default wrapClass;
 export default wrapClass(person,classes.Person);
 ```
 7. type checking https://reactjs.org/docs/typechecking-with-proptypes.html
+
 prop-types package
 ```
 npm install --save prop-types
@@ -184,4 +185,14 @@ Person.propTypes={
   age:PropTypes.number,
   changed:PropTypes.func
 };
+```
+8. 'ref' keyword. Use for focusing text input.
+
+```jsx
+<input 
+    ref={(inp)=>{this.inputElement=inp}}
+    type="text" 
+    onChange={this.props.changed} 
+    value={this.props.name}
+/>   
 ```
