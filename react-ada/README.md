@@ -133,11 +133,15 @@ Don't update state (setState) in componentDidMount().
 Only in componentShouldUpdate(), you return true or false to decide whether to continue the update process
 
 These methods will never called through DOM events, so no 'this' keyword issue.
+
 4. PureComponent https://reactjs.org/docs/react-api.html#reactpurecomponent
 
 setState() will cause the re-rendering even if there is nothing changed, i.e always the setting the same value. So you need to use componentShouldUpdate() in children components to check nextProps.xxx===this.props.xxx, nextState.xxx===this.State.xxx. Here, PureComponent has built-in componentShouldUpdate() check rules. Children components will benefit from the parent PureComponent.
+
 5. virtual DOM https://reactjs.org/docs/faq-internals.html
+
 6. higher order component https://reactjs.org/docs/higher-order-components.html
+
 * type 1
 ```javascript
 const aux=(props)=>props.children;
