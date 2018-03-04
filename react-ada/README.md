@@ -139,3 +139,10 @@ export default aux;
     </button>
 </Aux>
 ```
+In react 16.2
+```jsx
+<>
+    <h1>First Element</h1>
+    <h1>Second Element</h1>
+</>
+```
