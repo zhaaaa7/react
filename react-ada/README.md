@@ -54,9 +54,14 @@ and webpack.config.prod.js
           .....
 }
 ```
-Behind the scene, the css loader append 'local__hash:base64:5' on the css seletor to make it unique.
+Behind the scene, the css loader append 'local__hash:base64:5' to each css seletor to make it unique.
 
 3. use 
+```css
+.App {
+  text-align: center;
+}
+```
 ```javascript
 import classes from './App.css';
 
