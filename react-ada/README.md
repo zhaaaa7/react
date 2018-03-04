@@ -86,9 +86,9 @@ to define a global styling rule
 ```
 ## Debugging
 1. react-dev-tool https://github.com/facebook/react-devtools
-1. error boundary component(react 16) https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html
+2. error boundary component(react 16) https://reactjs.org/docs/error-boundaries.html
 
-componentDidCatch() lifecycle method
+componentDidCatch() lifecycle method, put it somewhere you know error may happen.
 ```javascript
 class ErrorBoundary extends Component{
     state={
@@ -115,3 +115,4 @@ class ErrorBoundary extends Component{
     }    
 }
 ```
+## 
