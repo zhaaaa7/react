@@ -54,3 +54,9 @@ and webpack.config.prod.js
           .....
 }
 ```
+3. use 
+```javascript
+import classes from './App.css';
+
+<div className={classes.App}>
+```
