@@ -5,6 +5,9 @@ To scope the css file to each component, not globally
 https://github.com/gajus/react-css-modules
 ```
 ### Set Up
+
+More Details: https://medium.com/nulogy/how-to-use-css-modules-with-create-react-app-9e44bec2b5c2
+
 1. eject 
 ```
 npm run ejct
