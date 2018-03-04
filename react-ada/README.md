@@ -128,6 +128,8 @@ setState() will cause the re-rendering even if there is nothing changed, i.e alw
 ```javascript
 const aux=(props)=>props.children;
 export default aux;
+```
+```javascript
 //avoid using unnecessary div
 <Aux>
    <h2> {this.props.title} </h2>
