@@ -175,6 +175,6 @@ if(this.state.showPersons){
         </div> 
       );
   ```
-key property is required to make the render proecess more efficient: react track each list item here
+'key' property is required to make the render proecess more efficient: react track each list item here. It should be placed on the outermost component in map function.
   
 
