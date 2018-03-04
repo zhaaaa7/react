@@ -9,7 +9,7 @@ https://github.com/gajus/react-css-modules
 ```
 npm run ejct
 ```
-2. change css loader in webpack.config.dev
+2. change css loader in webpack.config.dev.js
 ```javascript
 {
   test: /\.css$/,
@@ -25,5 +25,32 @@ npm run ejct
       },
     },
     ....
+}
+```
+and webpack.config.prod.js
+```javascript
+{
+  test: /\.css$/,
+  loader: ExtractTextPlugin.extract(
+    Object.assign(
+      {
+        fallback: {
+          loader: require.resolve('style-loader'),
+          options: {
+            hmr: false,
+          },
+        },
+        use: [
+          {
+            loader: require.resolve('css-loader'),
+            options: {
+              importLoaders: 1,
+              modules: true,
+              localIdentName: '[name]__[local]__[hash:base64:5]',
+              minimize: true,
+              sourceMap: shouldUseSourceMap,
+            },
+          },
+          .....
 }
 ```
