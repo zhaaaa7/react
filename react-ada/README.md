@@ -115,4 +115,25 @@ class ErrorBoundary extends Component{
     }    
 }
 ```
-## 
+## react concepts
+1. stateful(class) and stateless(function) components. Use stateful components as little as possible.
+2. component lifecycle
+Don't update state (setState) in componentDidMount().
+Only in componentShouldUpdate(), you return true or false to decide whether to continue the update process
+These methods will never called through DOM events, so no 'this' keyword issue.
+3. PureComponent
+setState() will cause the re-rendering even if there is nothing changed, i.e always the setting the same value. So you need to use componentShouldUpdate() in children components to check nextProps.xxx===this.props.xxx, nextState.xxx===this.State.xxx. Here, PureComponent has built-in componentShouldUpdate() check rules. Children components will benefit from the parent PureComponent.
+4. virtual DOM
+5. higher order component 
+```javascript
+const aux=(props)=>props.children;
+export default aux;
+//avoid using unnecessary div
+<Aux>
+   <h2> {this.props.title} </h2>
+    <button
+        className={btnClass}
+        onClick={this.props.toggled}>Show Name Card
+    </button>
+</Aux>
+```
