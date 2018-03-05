@@ -1,0 +1,25 @@
+.Button{
+    border:1px solid blue;
+    padding:16px;
+    background-color: green;
+    font:inherit;
+    color:white;
+  }
+  
+  .Button:hover{
+    background-color:yellow;
+  
+  }
+  
+  .Button.Red{
+    border:1px solid red;
+    padding:16px;
+    background-color: red;
+    font:inherit;
+    color:white;
+  }
+  
+  .Button.Red:hover{
+    background-color: lightcoral;
+  
+  }

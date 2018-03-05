@@ -1,0 +1,13 @@
+.AddPerson {
+    text-align: center;
+    margin: 30px;
+}
+
+input {
+    display: block;
+    margin: 10px auto;
+}
+
+button {
+    width: 100px;
+}
