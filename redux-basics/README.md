@@ -8,7 +8,7 @@
 * Reducer check the type of action and then define a block code regarding that type of action. 
 * Components subscribe to central storage store and then get the updated state as props.
 
-## set up
+## Set up
 1. install packages
 ```
 npm install -save redux react-redux
@@ -16,11 +16,11 @@ npm install -save redux react-redux
 2. Connect redux to react
 ```javascript
 createStore(rootreducer)
-<Provider  store={store}><App /></Provider> — a helper component
-<connect>()(component) — a function which returns a higher order function, subscribe to the store
+<Provider  store={store}><App /></Provider> //— a helper component
+<connect>()(component) //— a function which returns a higher order function, subscribe to the store
 ```
 
-## details
+## Details
 1. Immutability
 https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns
 For object
