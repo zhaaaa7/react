@@ -23,12 +23,12 @@ const store=createStore(rootReducer,applyMiddleware(logger,thunk));
 ```
 3.  thunk: https://github.com/gaearon/redux-thunk
 
-## action creator
+### action creator
 1. Run async code with action creators: a function that returns an action (object). 
 2. thunk lets the action creator not return an action but a function which will then (asynchronously) dispatch another (normal, sync) action.
 3. Use an index.js file to export all action creators
 
-## other ...
+### other ...
 1. Where to transform the data before reaching the store? Action creator or reducer? — probably reducer because it is designed to update the state
 2. Use getState() or pass the state as a payload? Not too much logic in action creator.
 3. Use an utility.js file for immutability and a clean switch statement.
