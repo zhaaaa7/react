@@ -1,0 +1,20 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.Button {
+  border: 1px solid #0c0fe2;
+  font: inherit;
+  padding: 8px;
+  background-color: #0457f1;
+  color: white;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.Button:hover,
+.Button:active {
+  background-color: #fa923f;
+}
