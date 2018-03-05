@@ -8,7 +8,7 @@ It is designed for parsing the path and then showing the appropriate jsx code/co
 ### react-router-dom
 It is used for routing to work in the browser.
 
-### Details
+## Details
 1. In App.js, wrap everything with <BrowserRouter> 
 2. 
 ```jsx
