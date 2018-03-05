@@ -11,9 +11,9 @@ pathname:
 hash:
 search:}}>
 8. router returns some specific properties as props of a “container”, but don’t pass it down to the embedded “components”
-   Inline-style: 
-![alt text](https://github.com/zhaaaa7/react/blob/master/routing/routing.png "routing property")
-<img src="https://github.com/zhaaaa7/react/blob/master/routing/routing.png" width="250px"/>
+
+
+<img src="https://github.com/zhaaaa7/react/blob/master/routing/routing.png" width="400px"/>
 
 9. To pass it down
    {… this.props} or use <WithRouter>container<WithRouter>
