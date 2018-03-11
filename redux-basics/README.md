@@ -1,3 +1,5 @@
+demo: https://redux-b06c9.firebaseapp.com
+
 ## Concepts
 1. Redux: has a clearly defined process of how the state of the app may change
 2. store: a global store, a giant js object
