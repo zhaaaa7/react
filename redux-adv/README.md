@@ -1,4 +1,6 @@
-### Redux dev tool:  https://github.com/zalmoxisus/redux-devtools-extension
+demo: https://redux-adv.firebaseapp.com
+
+#### Redux dev tool:  https://github.com/zalmoxisus/redux-devtools-extension
 ### Middleware: 
 1. functions / code you hook into a process which then then gets executed as a part of the process without stopping it. Do something with the action before it reaches the reducer.
 ```javascript
