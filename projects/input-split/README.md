@@ -8,5 +8,5 @@
 5. When you click a CharComponent, it will be removed from the entered text.
     
     
-** live demo:
+## live demo:
 <img src="https://github.com/zhaaaa7/react/blob/master/projects/gif/split.gif" alt="split" with="800px" />
