@@ -8,3 +8,7 @@
 7. Add a 404 error page and render it for any unknown routes
 8. Redirect requests to /all-courses to /courses (=> Your "Courses" page)
      
+     
+## live demo
+
+<img src="https://github.com/zhaaaa7/react/blob/master/projects/gif/passparams.gif" alt="passparams"/>
