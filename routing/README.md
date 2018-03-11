@@ -1,3 +1,5 @@
+demo: https://routing-fa1a7.firebaseapp.com
+
 ## Basics
 ### routing
 For a single html file, use js code to render different parts (component) of the single page for different path.
