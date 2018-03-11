@@ -1,5 +1,5 @@
 
-<img src="https://github.com/zhaaaa7/react/blob/master/projects/gif/split.gif" alt="split" />
+<img src="https://github.com/zhaaaa7/react/blob/master/projects/gif/split.gif" alt="split" with="1000px" style="border: 1px solid black;" />
 
 1. an input field (in App component) with a change listener which outputs the length of the entered text below it (e.g. in a paragraph).
 2. a new component (=> ValidationComponent) which receives the text length as a propInside the ValidationComponent, either output "Text too short" or "Text long enough" depending on the text length (e.g. take 5 as a minimum length)
