@@ -7,5 +7,6 @@
 4. Render a list of CharComponents where each CharComponent receives a different letter of the entered text (in the initial input field) as a prop.
 5. When you click a CharComponent, it will be removed from the entered text.
     
-live demo:
+    
+** live demo:
 <img src="https://github.com/zhaaaa7/react/blob/master/projects/gif/split.gif" alt="split" with="800px" />
