@@ -1,3 +1,6 @@
+live demo: https://inputchange.firebaseapp.com
+
+
 1. new components: UserInput and UserOutput
 
 2. Pass a username (of your choice) to UserOutput via props and display it there
