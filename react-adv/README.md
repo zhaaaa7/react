@@ -132,13 +132,19 @@ this.setState((prevState,props)=>{
 
 Don't update state (setState) in componentDidMount().
 
-Only in componentShouldUpdate(), you return true or false to decide whether to continue the update process
+Only in componentShouldUpdate(), you return true or false to decide whether to continue the update process, it can save the unnecessary effort of rebuilding the DOM. For example, a component to be animated is, for the most of the time, out of the screen. You can update the state only when it appears in the viewpoint.
 
 These methods will never called through DOM events, so no 'this' keyword issue.
 
 4. PureComponent https://reactjs.org/docs/react-api.html#reactpurecomponent
 
-setState() will cause the re-rendering even if there is nothing changed, i.e always the setting the same value. So you need to use componentShouldUpdate() in children components to check nextProps.xxx===this.props.xxx, nextState.xxx===this.State.xxx. Here, PureComponent has built-in componentShouldUpdate() check rules. Children components will benefit from the parent PureComponent.
+setState() will cause the re-rendering even if there is nothing changed, i.e always the setting the same value. So you need to use componentShouldUpdate() in children components to check 
+
+```
+if (nextProps.xxx===this.props.xxx, nextState.xxx===this.State.xxx)
+```
+
+Here, PureComponent has built-in componentShouldUpdate() check rules. Children components will benefit from the parent PureComponent.
 
 5. virtual DOM https://reactjs.org/docs/faq-internals.html
 
