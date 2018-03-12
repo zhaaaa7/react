@@ -12,3 +12,25 @@
 ## live demo
 
 <img src="https://github.com/zhaaaa7/react/blob/master/projects/gif/passparams.gif" alt="passparams"/>
+
+## Some tips
+
+1. url params
+encoding:  encode the params so that they can be used in url
+```javascript
+encodeURIComponent
+```
+decoding: 
+```javascript
+query=new URLSearchParams(this.props.location.search);
+```
+
+2.
+```javascript
+Object.keys()
+```
+
+3.
+```javascript
+[].entries()
+```
