@@ -6,9 +6,12 @@
 * compiler: babel
 2. process
 * Download node.js to run npm
-* https://github.com/facebook/create-react-app
+* run create-react-app, https://github.com/facebook/create-react-app
     
     
+## single page application
+There should be just 1 html page in one react project.
+
 ## react concepts:
 
 1. jsx 
@@ -85,7 +88,7 @@ The .css file is in gobal scope, so use the same as component to avoid mistakes.
 ```javascript
 import './Person.css';
 ```
-* Inline style, pat attention to property name and ''
+* Inline style, pay attention to property name and '', wrap properties in “” because they are in essence object property value
 ```javascript
 const style={
       backgroundColor:'green',
@@ -177,4 +180,6 @@ if(this.state.showPersons){
   ```
 'key' property is required to make the render proecess more efficient: react track each list item here. It should be placed on the outermost component in map function.
   
+## Some tips
 
+1. 
