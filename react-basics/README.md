@@ -200,5 +200,6 @@ if(this.state.showPersons){
   
 ## Some tips
 
-1.  Your app state should be manipulate in just a few .js file (container component) that do not do too much UI stuff, i.e. jsx code. Create as many as functional components which present sth, i.e. jsx.
+1. Your app state should be manipulate in just a few .js file (container component) that do not do too much UI stuff, i.e. jsx code. Create as many as functional components which present sth, i.e. jsx.
 
+2. event.target.value: handle user input
