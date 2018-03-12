@@ -2,13 +2,17 @@ demo: https://routing-fa1a7.firebaseapp.com
 
 ## Basics
 ### routing
-For a single html file, use js code to render different parts (component) of the single page for different path.
+For a single html file, to mimic multiple page effect, use js code to render different parts (component) of the single page for different path.
 
-### router package 
+### react-router package 
 It is designed for parsing the path and then showing the appropriate jsx code/component.
 
 ### react-router-dom
 It is used for routing to work in the browser.
+
+```
+npm install --save react-router react-router-dom 
+```
 
 ## Details
 1. In App.js, wrap everything with <BrowserRouter> 
@@ -31,7 +35,7 @@ attention: 'path' just check if the route starts with ‘/’, so this route wil
 ```
 4. router returns some special properties 
 <img src="https://github.com/zhaaaa7/react/blob/master/routing/routing.png" width="400px"/>
-They become props of the “container” rendered in <Route>, but don’t pass it down to the embedded children components.
+They become props of the “container” rendered in <Route>, but don’t pass it down to the embedded children components. To pass those routing related props in the children components of the routed components, pass it as props or use withRouter().
 
 To pass it down from Posts to Post
 In Posts.js
@@ -50,8 +54,15 @@ withRouter(post)
 ```jsx
   <Link to={this.props.match.url+’/new-post’ } />
 ```
+      
+relative and absolute path: https://www.udemy.com/react-the-complete-guide-incl-redux/learn/v4/t/lecture/8140667?start=0
+      
+6. <NavLink> tells the router to find the “active” link and add css style to them with the default ".active" class.
+if you want to specify the class name you hope react see as ".active", use "activeClassName". You can also add inline style for the ".active" class.
+```jsx
+<NavLink activeClassName=“..” activeStyle=“…”>  
+```      
 
-6. <NavLink activeClassName=“..” activeStyle=“…”>  tells the router to find the “active” link and add css style to them. The applied css rule is in .active selector.
    
 7. Add placeholder ':' 
 ```jsx
@@ -59,7 +70,7 @@ withRouter(post)
 ```
 8 .<Switch> load the first one that matches, pay attention to the order
 9. Router is all about page stacks, this.props.history.goBack() / push() /…
-10. Nested route: render another component inside one component. To use relative path:
+10. Nested route: render another component inside one component. Use relative path:
 ```jsx
    <Route path={this.props.match.url+"/:id"} exact component={FullPost} />
 ```
@@ -73,7 +84,7 @@ Can’t use from if outside of <Switch>
 ```javascript
 {this.state.auth?<Route path="/new-post" component={NewPost} /> :null}
 ```
-13.404 condition: 
+13.404 condition: catch any unknown url
 ```jsx
 <Route render={()=><h1>not found</h1>} />
 ```
