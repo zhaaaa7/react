@@ -146,15 +146,18 @@ if (nextProps.xxx===this.props.xxx, nextState.xxx===this.State.xxx)
 
 Here, PureComponent has built-in componentShouldUpdate() check rules. Children components will benefit from the parent PureComponent.
 
-5. virtual DOM https://reactjs.org/docs/faq-internals.html
+5. virtual DOM https://reactjs.org/docs/faq-internals.html, render() changes the virtual DOM.
 
 6. higher order component https://reactjs.org/docs/higher-order-components.html
 
 * type 1
+
 ```javascript
 const aux=(props)=>props.children;
 export default aux;
 ```
+wrap the jsx with Aux to avoid meaningless div
+
 ```javascript
 //avoid using unnecessary div
 <Aux>
@@ -203,6 +206,8 @@ Person.propTypes={
 };
 ```
 8. 'ref' keyword. https://reactjs.org/docs/refs-and-the-dom.html
+
+ref creates a new property of the class
 
 Use for focusing text input.
 
