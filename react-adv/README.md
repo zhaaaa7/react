@@ -1,12 +1,11 @@
-demo: https://react-2f3e7.firebaseapp.com
+## demo: 
+https://react-2f3e7.firebaseapp.com
 
 
 ## css module
 
-To scope the css file to each component, not globally
-```
-https://github.com/gajus/react-css-modules
-```
+To scope the css file to each component, not globally.https://github.com/gajus/react-css-modules. Webpack makes it possible to import css into js file
+
 ### Set Up
 
 More Details: https://medium.com/nulogy/how-to-use-css-modules-with-create-react-app-9e44bec2b5c2
