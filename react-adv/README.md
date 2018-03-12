@@ -164,6 +164,8 @@ e. The screen looks different than it used to.
 
 * type 1
 
+props.children returns everything between a component's opening and closing tags.
+
 ```javascript
 const aux=(props)=>props.children;
 export default aux;
@@ -205,16 +207,21 @@ export default wrapClass(person,classes.Person);
 ```
 7. type checking https://reactjs.org/docs/typechecking-with-proptypes.html
 
-prop-types package
+prop-types package. Each propType is a property on an object.
 ```
 npm install --save prop-types
 ```
 ```javascript
-Person.propTypes={
-  click:PropTypes.func,
-  name:PropTypes.string,
-  age:PropTypes.number,
-  changed:PropTypes.func
+import PropTypes from 'prop-types';
+class Greeting extends React.Component {
+  render() {
+    return (
+      <h1>Hello, {this.props.name}</h1>
+    );
+  }
+}
+Greeting.propTypes = {
+  name: PropTypes.string
 };
 ```
 8. 'ref' keyword. https://reactjs.org/docs/refs-and-the-dom.html
