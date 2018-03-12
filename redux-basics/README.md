@@ -16,9 +16,24 @@ demo: https://redux-b06c9.firebaseapp.com
 npm install -save redux react-redux
 ```
 2. Connect redux to react
+In App.js
+
 ```javascript
+Import {createStore} from ‘redux’;
+Import reducer from './reducer.js';
+Import {Provider} from ‘react-redux’;
+
+
 createStore(rootreducer)
+
 <Provider  store={store}><App /></Provider> //— a helper component
+
+```
+In individual container component
+```javascript
+
+import {connect} from “react-redux";
+
 <connect>()(component) //— a function which returns a higher order function, subscribe to the store
 ```
 
