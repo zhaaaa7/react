@@ -1,4 +1,5 @@
-demo: https://routing-fa1a7.firebaseapp.com
+## demo
+https://routing-fa1a7.firebaseapp.com
 
 ## Basics
 ### routing
@@ -15,7 +16,9 @@ npm install --save react-router react-router-dom
 ```
 
 ## Details
-1. In App.js, wrap everything with <BrowserRouter> 
+1. In App.js, wrap everything with <BrowserRouter> .
+      
+When hosting, <BrowserRouter basename="my-app">, add basename if deploying in sub-folder
 2. 
 ```jsx
 <Route path=‘/’ render={()=><p>homepage</p>}>  renders a function
