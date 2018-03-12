@@ -126,4 +126,12 @@ const AsyncNewPost=asyncComponent(()=>{
     return import('./NewPost/NewPost');
 });
 ```
-15. Routing is only known inside the app, use <BrowserRouter basename=“my-app"> for apps in subfolders when hosting.
+
+## Some tips
+1. Routing is only known inside the app, use <BrowserRouter basename=“my-app"> for apps in subfolders when hosting.
+2. Use console.log(this.props); //check the real key to debug
+3. this.props.history.push({pathname:’/'+id}) is usable when needs to wait sth finishes
+4. this.props.match.params.id is a string
+5. Nested route will be shadowed by the route in the parent, order is important!!
+
+
