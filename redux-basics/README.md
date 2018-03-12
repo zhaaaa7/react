@@ -1,4 +1,5 @@
-demo: https://redux-b06c9.firebaseapp.com
+## demo: 
+https://redux-b06c9.firebaseapp.com
 
 ## Concepts
 1. Redux: has a clearly defined process of how the state of the app may change
@@ -18,7 +19,7 @@ npm install -save redux react-redux
 2. Connect redux to react
 In App.js
 
-```javascript
+```jsx
 Import {createStore} from ‘redux’;
 Import reducer from './reducer.js';
 Import {Provider} from ‘react-redux’;
@@ -30,7 +31,7 @@ createStore(rootreducer)
 
 ```
 In individual container component
-```javascript
+```jsx
 
 import {connect} from “react-redux";
 
@@ -38,7 +39,16 @@ import {connect} from “react-redux";
 ```
 
 ## Details
-1. Immutability
+1. props take over state and methods
+
+All state and dispatch actions are saved in the props that use “this.props” for everything.
+```javascript
+const mapStateToProps=state=>{};
+
+const mapDispatchToProps=dispatch=>{:
+```
+
+2. Immutability
 https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns
 For object
 ```javascript
@@ -49,10 +59,10 @@ return {
   …state,               
        }
 ```
-For array, use concat, filter or other array methods that return a new array
+For array, use concat(), filter() or other array methods that return a new array
 
-2. Outsource action types in separate actiontype.js to avoid typo
-3. Split reducers based on their task goal
+3. Outsource action types in separate actiontype.js to avoid typo
+4. Split reducers based on their task goal
 ```javascript
 rootReducer=combineReducers({ 
               reduceri1:xx, 
@@ -81,7 +91,10 @@ const mapDispatchToProps=dispatch=>{
 results:state.results.concat({id:new Date(),value:action.result}) 
 ```
 
-4. What type of state should be controlled in redux?
+5. What type of state should be controlled in redux?
 Local UI state : often not
 Persistent state: often in backend server, may store some related slices in redux
 Client state: user authenticated? User preference? In redux!
+
+## tricks
+1. you can dispatch funcs that doesn’t handled by the reducer, because by default the state is returned
