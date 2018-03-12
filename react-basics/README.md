@@ -125,6 +125,24 @@ let classGroup=[];
 npm install --save redium
 
 import Radium , {StyleRoot} from 'radium';
+
+......
+
+return (
+      <StyleRoot>
+      <div className="App">
+          <p className={classGroup.join(' ')}>dynamically changed css</p>
+          <button
+            style={style}
+            onClick={this.togglePersonsHandler}>See Name Card
+          </button>
+          {person}
+      </div>
+      </StyleRoot>
+    );
+    
+......
+
 export default Radium(App);
 ```
 ```javascript
@@ -182,4 +200,5 @@ if(this.state.showPersons){
   
 ## Some tips
 
-1. 
+1.  Your app state should be manipulate in just a few .js file (container component) that do not do too much UI stuff, i.e. jsx code. Create as many as functional components which present sth, i.e. jsx.
+
