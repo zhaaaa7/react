@@ -119,7 +119,10 @@ class ErrorBoundary extends Component{
 ```
 ## react concepts
 1. stateful(class) and stateless(function) components. Use stateful components as little as possible.
-2. setState() is async, so use the function form if wanting to use the previous state, such us counting.
+2. setState() 
+1)this.setState automatically calls render, so don't use it in render, otherwise it would create an infinite loop
+
+2)is async, so use the function form if wanting to use the previous state, such us counting.
 ```javascript
 this.setState((prevState,props)=>{
     return{
@@ -147,6 +150,15 @@ if (nextProps.xxx===this.props.xxx, nextState.xxx===this.State.xxx)
 Here, PureComponent has built-in componentShouldUpdate() check rules. Children components will benefit from the parent PureComponent.
 
 5. virtual DOM https://reactjs.org/docs/faq-internals.html, render() changes the virtual DOM.
+
+How does virtual DOm work?
+```
+a. A JSX element renders.
+b. The entire virtual DOM updates.
+c. The virtual DOM "diffs," comparing its current self with its previous self.
+d. Part of the real DOM updates.
+e. The screen looks different than it used to.
+```
 
 6. higher order component https://reactjs.org/docs/higher-order-components.html
 
