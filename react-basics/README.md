@@ -3,12 +3,20 @@
 * dependency management tools: npm /yarn 
 * dependency: third-party library (react, npm, yarn)
 * bundler: bundle all modules (webpack)
-* compiler: babel
+* compiler: babel. (Babel is a Node package that developers use to transpile ES6+ code to ES5.)
 2. process
 * Download node.js to run npm
 * run create-react-app, https://github.com/facebook/create-react-app
+3. files
+```
+* package.json
+```
+It provides information about the JavaScript project: metadata (title, description), package dependencies, scripts, and more.
     
-    
+* What does the npm run build command do?
+
+It runs a script assigned to "build" inside of package.json. If you assign it babel src -d lib, it will run the code required to transpile ES6+ code to ES5.
+
 ## single page application
 There should be just 1 html page in one react project.
 
@@ -88,7 +96,17 @@ The .css file is in gobal scope, so use the same as component to avoid mistakes.
 ```javascript
 import './Person.css';
 ```
+
 * Inline style, pay attention to property name and '', wrap properties in “” because they are in essence object property value
+
+```jsx
+//an object literal is being injected into JSX.
+<div style={{ background: 'blue' }}></div>
+```
+```jsx
+{ marginTop: 10 } // no pixel needed
+```
+
 ```javascript
 const style={
       backgroundColor:'green',
