@@ -203,3 +203,10 @@ if(this.state.showPersons){
 1. Your app state should be manipulate in just a few .js file (container component) that do not do too much UI stuff, i.e. jsx code. Create as many as functional components which present sth, i.e. jsx.
 
 2. event.target.value: handle user input
+
+3. In order for a stateless child component to update the state of its parent, a parent must define a function that contains this.setState(). You can think of stateless components inheriting from stateful components.
+
+4. MVC modal 
+* A stateful component class stores information as state.
+* A stateless component class displays that state.
+* A different stateless component class displays a way to change that state.
