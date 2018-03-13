@@ -1,3 +1,5 @@
+### react? In a React form, the server should know about every new character or deletion as soon as it happens.
+
 1. shallow clone: … can just clone the first level key-value pair unchangedly
 2. Make all rules being validated
 ```javascript
