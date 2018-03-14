@@ -223,7 +223,7 @@ class NameForm extends React.Component {
 Since the value attribute is set on our form element, the displayed value will always be this.state.value, making the **React state the source of truth**. Since handleChange runs on every keystroke to update the React state, the **displayed value will update as the user types**.
 
 3. <textarea>
-In HTML, a <textarea> element defines its text by its children:
+In HTML, a '<textarea>' element defines its text by its children:
   
 ```
 <textarea>
