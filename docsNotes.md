@@ -235,7 +235,7 @@ In React, a <textarea> uses a value attribute instead. This way, a form using a 
 <textarea value={this.state.value} onChange={this.handleChange} />
 ```
   
-4. 
+4. <select>
 
 React, instead of using selected attribute, uses a value attribute on the root select tag. 
 ```jsx
