@@ -183,7 +183,8 @@ const content = posts.map((post) =>
 
 2. Controlled Components
 
-  
+In HTML, form elements  typically maintain their own state and update it based on user input.  In React, mutable state is typically kept in the state property of components, and only updated with setState().
+We can combine the two by making the React state be the “single source of truth”.  
   
 ```jsx
 class NameForm extends React.Component {
