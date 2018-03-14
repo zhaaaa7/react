@@ -84,7 +84,7 @@ class LoggingButton extends React.Component {
 This syntax is enabled by default in **Create React App**.
 
 If you aren’t using class fields syntax, you can use an arrow function in the callback:
-```
+```jsx
 class LoggingButton extends React.Component {
   handleClick() {
     console.log('this is:', this);
@@ -101,3 +101,145 @@ class LoggingButton extends React.Component {
 }
 ```
 The **problem** with this syntax is that a different callback is created each time the LoggingButton renders. In most cases, this is fine. However, if this callback is passed as a prop to lower components, those components might do an extra re-rendering. We generally recommend binding in the constructor or using the class fields syntax, to avoid this sort of performance problem.
+
+3. Passing Arguments to Event Handlers
+Inside a loop it is common to want to pass an extra parameter to an event handler. For example, if id is the row ID, either of the following would work:
+```jsx
+<button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button>
+<button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>
+```
+The above two lines are equivalent, and use arrow functions and Function.prototype.bind respectively.
+In both cases, the e argument representing the React event will be passed as a second argument after the ID. 
+
+With an arrow function, we have to **pass it explicitly**, but with bind any further arguments are **automatically forwarded**.
+
+## Conditional Rendering
+1.  declaring a variable and using an if statement
+2.  Inline If with Logical && Operator
+```jsx
+function Mailbox(props) {
+  const unreadMessages = props.unreadMessages;
+  return (
+    <div>
+      <h1>Hello!</h1>
+      {unreadMessages.length > 0 &&
+        <h2>
+          You have {unreadMessages.length} unread messages.
+        </h2>
+      }
+    </div>
+  );
+}
+
+const messages = ['React', 'Re: React', 'Re:Re: React'];
+ReactDOM.render(
+  <Mailbox unreadMessages={messages} />,
+  document.getElementById('root')
+);
+```
+It works because in JavaScript, true && expression always evaluates to expression, and false && expression always evaluates to false.
+Therefore, if the condition is true, the element right after && will appear in the output. If it is false, React will ignore and skip it.
+
+3. Preventing Component from Rendering
+
+Returning null from a component’s render method does not affect the firing of the component’s lifecycle methods. For instance, componentWillUpdate and componentDidUpdate will still be called.
+```jsx
+function WarningBanner(props) {
+  if (!props.warn) {
+    return null;
+  }
+
+  return (
+    <div className="warning">
+      Warning!
+    </div>
+  );
+}
+```
+
+## Lists and Keys
+1. Keys help React identify which items have changed, are added, or are removed. Keys should be given to the elements inside the array to give the elements a stable identity. The best way to pick a key is to use a string that uniquely identifies a list item among its siblings.
+```jsx
+const todoItems = todos.map((todo) =>
+  <li key={todo.id}>
+    {todo.text}
+  </li>
+);
+```
+2. Keys only make sense in the context of the surrounding array. A good rule of thumb is that elements inside the map() call need keys.
+
+3. Keys serve as a hint to React but they don’t get passed to your components. If you need the same value in your component, pass it explicitly as a prop with a different name:
+```jsx
+const content = posts.map((post) =>
+  <Post
+    key={post.id}
+    id={post.id}
+    title={post.title} />
+);
+```
+
+## Forms
+1. It’s convenient to have a JavaScript function that handles the submission of the form and has access to the data that the user entered into the form. The standard way to achieve this is with a technique called “controlled components”.
+
+2. Controlled Components
+
+In HTML, form elements such as <input>, <textarea>, and <select> typically maintain their own state and update it based on user input. In React, mutable state is typically kept in the state property of components, and only updated with setState().
+We can combine the two by making the React state be the “single source of truth”. 
+
+```jsx
+class NameForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Name:
+          <input type="text" value={this.state.value} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+```
+Since the value attribute is set on our form element, the displayed value will always be this.state.value, making the **React state the source of truth**. Since handleChange runs on every keystroke to update the React state, the **displayed value will update as the user types**.
+
+3. <textarea>
+In HTML, a <textarea> element defines its text by its children:
+```html
+<textarea>
+  Hello there, this is some text in a text area
+</textarea>
+```
+In React, a <textarea> uses a value attribute instead. This way, a form using a <textarea> can be written very similarly to a form that uses a single-line input.
+```jsx
+<textarea value={this.state.value} onChange={this.handleChange} />
+```
+  
+  4. <select>
+  React, instead of using selected attribute, uses a value attribute on the root select tag. 
+  ```jsx
+  this.state = {value: 'coconut'};
+  ......
+  
+  <select value={this.state.value} onChange={this.handleChange}>
+  
+  .....
+  
+  ```
