@@ -182,9 +182,9 @@ const content = posts.map((post) =>
 1. It’s convenient to have a JavaScript function that handles the submission of the form and has access to the data that the user entered into the form. The standard way to achieve this is with a technique called “controlled components”.
 
 2. Controlled Components
-
 In HTML, form elements such as <input>, <textarea>, and <select> typically maintain their own state and update it based on user input. In React, mutable state is typically kept in the state property of components, and only updated with setState().
 We can combine the two by making the React state be the “single source of truth”. 
+  
 
 ```jsx
 class NameForm extends React.Component {
@@ -218,6 +218,7 @@ class NameForm extends React.Component {
   }
 }
 ```
+
 Since the value attribute is set on our form element, the displayed value will always be this.state.value, making the **React state the source of truth**. Since handleChange runs on every keystroke to update the React state, the **displayed value will update as the user types**.
 
 3. <textarea>
