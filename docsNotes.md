@@ -185,7 +185,7 @@ const content = posts.map((post) =>
 
   
   
-```
+```jsx
 class NameForm extends React.Component {
   constructor(props) {
     super(props);
