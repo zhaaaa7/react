@@ -236,7 +236,7 @@ In React, a <textarea> uses a value attribute instead. This way, a form using a 
 ```
   
 4. <select>
-```html
+```
   <select>
   <option value="grapefruit">Grapefruit</option>
   <option value="lime">Lime</option>
