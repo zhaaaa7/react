@@ -1,3 +1,5 @@
+### notes of https://reactjs.org/docs/hello-world.html
+
 ## JSX
 
 1. JSX may remind you of a template language, but it comes with the full power of JavaScript.
@@ -24,6 +26,73 @@ const element = {
   }
 };
 ```
+7. rules
+* You cannot use a general expression as the React element type.
+```jsx
+//wrong!
+return <components[props.storyType] story={props.story} />;
+```
+* You can pass any JavaScript expression as a prop. if statements and for loops are not expressions in JavaScript, so they can’t be used in JSX directly
+* String Literals.You can pass a string literal as a prop. These two JSX expressions are equivalent:
+```jsx
+<MyComponent message="hello world" />
+
+<MyComponent message={'hello world'} />
+```
+When you pass a string literal, its value is HTML-unescaped. So these two JSX expressions are equivalent:
+```jsx
+<MyComponent message="&lt;3" />
+
+<MyComponent message={'<3'} />
+```
+* Spread attributes can be useful but they also make it easy to pass unnecessary props to components that don’t care about them or to pass invalid HTML attributes to the DOM. We recommend using this syntax sparingly
+```jsx
+const Button = props => {
+  const { kind, ...other } = props;
+  const className = kind === "primary" ? "PrimaryButton" : "SecondaryButton";
+  return <button className={className} {...other} />;
+};
+```
+
+8. props.children
+* HTML is unescaped, so you can generally write JSX just like you would write HTML in this way:
+```
+<div>This is valid HTML &amp; JSX at the same time.</div>
+```
+
+* A React component can also return an array of elements:
+```jsx
+render() {
+  // No need to wrap list items in an extra element!
+  return [
+    <li key="A">First item</li>,
+    <li key="B">Second item</li>,
+    <li key="C">Third item</li>,
+  ];
+}
+```
+**8-1. Functions as Children**
+Normally, JavaScript **expressions** inserted in JSX will evaluate to **a string, a React element, or a list of those things**. However, props.children works just like any other prop in that it can pass any sort of data, not just the sorts that React knows how to render. For example, if you have a custom component, you could have it take a callback as props.children:
+```jsx
+// Calls the children callback numTimes to produce a repeated component
+function Repeat(props) {
+  let items = [];
+  for (let i = 0; i < props.numTimes; i++) {
+    items.push(props.children(i));
+  }
+  return <div>{items}</div>;
+}
+
+function ListOfTenThings() {
+  return (
+    <Repeat numTimes={10}>
+      {(index) => <div key={index}>This is item {index} in the list</div>}
+    </Repeat>
+  );
+}
+```
+8-2. false, null, undefined, and true are valid children. They simply don’t render.
+
 ## rendering elements
 1. react elements -- describes what you want to see on the screen:
 ```jsx
@@ -259,10 +328,76 @@ this.state = {value: 'coconut'};
 ## Lifting State Up
 https://codepen.io/gaearon/pen/WZpxpz?editors=0010
 
-In React, sharing state is accomplished by moving it up to the closest common ancestor of the components that need it. This is called “lifting state up”. 
+In React, sharing state is accomplished by moving it up to the closest **common ancestor** of the components that need it. This is called “lifting state up”. 
 
-There should be a single “source of truth” for any data that changes in a React application. Usually, the state is first added to the component that needs it for rendering. Then, if other components also need it, you can lift it up to their closest common ancestor. Instead of trying to sync the state between different components, you should rely on the top-down data flow.
+There should be a single “source of truth” for any data that changes in a React application. Usually, the state is first added to the component that needs it for rendering. Then, if other components also need it, you can lift it up to their closest common ancestor. Instead of trying to sync the state between different components, you should rely on the **top-down data flow**.
 
 Lifting state involves writing more “boilerplate” code than two-way binding approaches, but as a benefit, it takes less work to find and isolate bugs. Since any state “lives” in some component and that component alone can change it, the surface area for bugs is greatly reduced. Additionally, you can implement any custom logic to reject or transform user input.
 
-If something can be derived from either props or state, it probably shouldn’t be in the state. For example, instead of storing both celsiusValue and fahrenheitValue, we store just the last edited temperature and its scale. The value of the other input can always be calculated from them in the render() method. This lets us clear or apply rounding to the other field without losing any precision in the user input.
+If something can be derived from either props or state, it probably **shouldn’t be in the state**. For example, instead of storing both celsiusValue and fahrenheitValue, we store just the last edited temperature and its scale. The value of the other input can always be calculated from them in the render() method. This lets us clear or apply rounding to the other field without losing any precision in the user input.
+
+## Composition vs Inheritance
+
+1. Containment
+Some components don’t know their children ahead of time. This is especially common for components like Sidebar or Dialog that represent generic “boxes”. We recommend that such components use the special children prop to pass children elements directly into their output:
+```jsx
+function FancyBorder(props) {
+  return (
+    <div className={'FancyBorder FancyBorder-' + props.color}>
+      {props.children}
+    </div>
+  );
+}
+```
+
+Sometimes you might need multiple “holes” in a component. In such cases you may come up with your own convention instead of using children
+
+https://codepen.io/gaearon/pen/gwZOJp?editors=0010
+
+```jsx
+function App() {
+  return (
+    <SplitPane
+      left={
+        <Contacts />
+      }
+      right={
+        <Chat />
+      } />
+  );
+```
+React elements like <Contacts /> and <Chat /> are just **objects**, so you can pass them as **props** like any other data.
+
+2. Specialization
+Sometimes we think about components as being “special cases” of other components. For example, we might say that a WelcomeDialog is a special case of Dialog.
+In React, this is also achieved by composition, where a more “specific” component renders a more “generic” one and configures it with props
+```jsx
+function Dialog(props) {
+  return (
+    <FancyBorder color="blue">
+      <h1 className="Dialog-title">
+        {props.title}
+      </h1>
+      <p className="Dialog-message">
+        {props.message}
+      </p>
+    </FancyBorder>
+  );
+}
+
+function WelcomeDialog() {
+  return (
+    <Dialog
+      title="Welcome"
+      message="Thank you for visiting our spacecraft!" />
+
+  );
+}
+```
+
+3. At Facebook, we use React in thousands of components, and we haven’t found any use cases where we would recommend creating component inheritance hierarchies.
+Props and composition give you all the flexibility you need to customize a component’s look and behavior in an explicit and safe way.
+
+
+
+## Typechecking With PropTypes
