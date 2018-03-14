@@ -401,3 +401,83 @@ Props and composition give you all the flexibility you need to customize a compo
 
 
 ## Typechecking With PropTypes
+
+https://reactjs.org/docs/static-type-checking.html
+
+1. To run typechecking on the props for a component, you can assign the special propTypes property.
+2. Static type checkers like Flow and TypeScript identify certain types of problems before you even run your code. They can also improve developer workflow by adding features like auto-completion. 
+
+## Refs and the DOM
+1. In the typical React dataflow, props are the only way that parent components interact with their children. To modify a child, you re-render it with new props. However, there are a few cases where you need to imperatively modify a child outside of the typical dataflow. 
+2. React supports a special attribute that you can attach to any component. The ref attribute takes a callback function, and the callback will be executed immediately after the component is mounted or unmounted
+3. When the ref attribute is used on an HTML element, the ref callback receives the underlying DOM element as its argument. For example, this code uses the ref callback to store a reference to a DOM node
+```jsx
+focusTextInput() {
+    // Explicitly focus the text input using the raw DOM API
+    this.textInput.focus();
+  }
+.......
+
+
+<input
+          type="text"
+          ref={(input) => { this.textInput = input; }} />
+```
+React will call the ref callback with the DOM element when the component mounts, and call it with null when it unmounts. ref callbacks are invoked before componentDidMount or componentDidUpdate lifecycle hooks.
+
+4. When the ref attribute is used on a custom component declared as a **class**, the ref callback receives the **mounted instance** of the component as its argument. You may not use the ref attribute on **functional components** because they don’t have instances.
+5. If the ref callback is defined as an inline function, it will get called twice during updates, first with null and then again with the DOM element.
+
+## Uncontrolled Components
+1. Since an uncontrolled component keeps the source of truth in the DOM, it is sometimes easier to integrate React and non-React code when using uncontrolled components. 
+
+## Reconciliation
+1. React provides a declarative API so that you don’t have to worry about exactly what changes on every update.
+
+## Context
+1. In some cases, you want to pass data through the component tree without having to pass the props down manually at every level. You can do this directly in React with the powerful “context” API.
+
+## Fragments
+1. A common pattern in React is for a component to return multiple elements. Fragments let you group a list of children without adding extra nodes to the DOM.
+```jsx
+return (
+      <React.Fragment key={item.id}>
+        <td>Hello</td>
+        <td>World</td>
+      </React.Fragment>
+    );
+```
+key is the only attribute that can be passed to Fragment.
+ 
+## Portals
+Portals provide a first-class way to render children into a DOM node that exists outside the DOM hierarchy of the parent component. The portal still exists in the React tree regardless of position in the DOM tree
+
+## Error boundaries
+1. Error boundaries are React components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of the component tree that crashed. Error boundaries catch errors during rendering, in lifecycle methods, and in constructors of the whole tree below them.
+
+2. A class component becomes an error boundary if it defines a new lifecycle method called componentDidCatch(error, info)
+
+3. try / catch is great but it only works for **imperative** code:
+```javascript
+try {
+  showButton();
+} catch (error) {
+  // ...
+}
+```
+However, React components are **declarative** and specify what should be rendered:
+```jsx
+<Button />
+```
+Error boundaries preserve the declarative nature of React, and behave as you would expect. For example, even if an error occurs in a componentDidUpdate hook caused by a setState somewhere deep in the tree, it will still correctly **propagate** to the closest error boundary.
+
+4. Error boundaries do not catch errors inside event handlers. React doesn’t need error boundaries to recover from errors in event handlers. Unlike the render method and lifecycle hooks, the **event handlers don’t happen during rendering**.
+
+## Web Components
+React and Web Components are built to solve different problems. Web Components provide strong **encapsulation for reusable components**, while React provides a **declarative library** that keeps the **DOM in sync with your data**. The two goals are complementary.
+
+## Higher-Order Components
+1. A higher-order component (HOC) is an advanced technique in React for reusing component logic. Concretely, a higher-order component is a function that takes a component and returns a new component. Whereas a component transforms props into UI, a higher-order component transforms a component into another component.
+
+### Render Props
+1. More concretely, a render prop is a function prop that a component uses to know what to render.
