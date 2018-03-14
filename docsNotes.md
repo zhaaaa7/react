@@ -235,7 +235,7 @@ In React, a <textarea> uses a value attribute instead. This way, a form using a 
 <textarea value={this.state.value} onChange={this.handleChange} />
 ```
   
-4. In html, '<select>' element
+4. In html
 ```
 <select>
   <option value="grapefruit">Grapefruit</option>
