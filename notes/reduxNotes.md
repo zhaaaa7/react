@@ -74,6 +74,28 @@ const createStore = (reducer) => {
 
 };
 ```
+
+### connect()
+1. connect () works to pass the store down, it also does the subscribe and unsubscribe stuff for you.
+
+
+
+## action
+
+### action creator
+use arrow function: if there is only one return statement, omit the {}, if the returned one is an object, wrap it in () so the parser understands it is an (object) expression, not a block
+
+
+
+
+
+
+
+
+
+
+
+
 notes of https://redux.js.org/basics/usage-with-react
 
 
@@ -82,3 +104,4 @@ notes of https://redux.js.org/basics/usage-with-react
 2. Technically, a container component is just a React component that uses store.subscribe() to read a part of the Redux state tree and supply props to a presentational component it renders. 
 
 3. Typically, you just need to generate container components with the React Redux library's connect() function, which provides many useful optimizations to prevent unnecessary re-renders. (One result of this is that you shouldn't have to worry about the React performance suggestion of implementing shouldComponentUpdate yourself.)
+
