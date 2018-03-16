@@ -14,6 +14,7 @@ https://github.com/tayiorbeii/egghead.io_idiomatic_redux_course_notes
 
 Docs: https://redux.js.org/introduction
 
+## Notes
 
 1. This complexity is difficult to handle as we're mixing two concepts that are very hard for the human mind to reason about: mutation and asynchronicity. 
 2. Libraries like React attempt to solve this problem in the view layer by removing both asynchrony and direct DOM manipulation.
