@@ -1,3 +1,19 @@
+## Source:
+Getting Started with Redux - Video Series
+
+https://egghead.io/series/getting-started-with-redux
+
+https://github.com/tayiorbeii/egghead.io_redux_course_notes
+
+
+Building React Applications with Idiomatic Redux - Video Series
+
+https://egghead.io/series/building-react-applications-with-idiomatic-redux
+
+https://github.com/tayiorbeii/egghead.io_idiomatic_redux_course_notes
+
+Docs: https://redux.js.org/introduction
+
 
 1. This complexity is difficult to handle as we're mixing two concepts that are very hard for the human mind to reason about: mutation and asynchronicity. 
 2. Libraries like React attempt to solve this problem in the view layer by removing both asynchrony and direct DOM manipulation.
@@ -140,7 +156,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 
 
-notes of https://redux.js.org/basics/usage-with-react
+
 
 
 1.  Redux works especially well with libraries like React and Deku because they let you describe UI as a function of state, and Redux emits state updates in response to actions.
