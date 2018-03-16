@@ -29,6 +29,35 @@ const combineReducers = reducers => {
   };
 };
 ```
+### initial state
+1. the second argument in createStore() is the initial state. If not provided, i.e. undefined, the default value in each reducer will work.
+2. persisting the initial state in local storage
+use uuid package to avoid key collision
+```
+$ npm install --save node-uuid
+```
+```
+stringify() is expensive
+```
+
+### selectors -- We usually call these functions selectors because they select something from the current state.
+https://github.com/tayiorbeii/egghead.io_idiomatic_redux_course_notes/blob/master/10-Colocating_Selectors_with_Reducers.md
+
+```javascript
+export const getVisibleTodos = (state, filter) => {
+  switch (filter) {
+    case 'all':
+      return state;
+    case 'completed':
+      return state.filter(t => t.completed);
+    case 'active':
+      return state.filter(t => !t.completed);
+    default:
+      throw new Error(`Unknown filter: ${filter}.`);
+  }
+};
+```
+
 
 ## store
 1.subscribe() registers a callback that the redux store will call any time an **action has been dispatched** so you can update the UI of your application to reflect the current application state
@@ -83,8 +112,23 @@ const createStore = (reducer) => {
 ## action
 
 ### action creator
-use arrow function: if there is only one return statement, omit the {}, if the returned one is an object, wrap it in () so the parser understands it is an (object) expression, not a block
+use arrow function: if there is only one return statement, omit the {}, if the returned one is an object, wrap it in () so the parser understands it is an (object) expression, not a block.
+```javascript
+export const addTodo = (text) => ({
+  type:'ADD_TODO',
+  id: (nextTodoId++).toString(),
+  text,
+})
+```
 
+use concise method notation
+```javascrip
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    onClick() {
+      dispatch(setVisibilityFilter(ownProps.filter))
+    }
+})
+```
 
 
 
