@@ -14,6 +14,74 @@ https://github.com/tayiorbeii/egghead.io_idiomatic_redux_course_notes
 
 Docs: https://redux.js.org/introduction
 
+## key sentence
+Any change to state is caused by a store.dispatch() call somewhere in the component.
+
+he todoApp reducer is the root reducer in this application. It is the one the store was created with, so its next state is the next state of the Redux store, and all the listeners(callbacks that have subscribed to the store) are notified.
+
+It's best practice with React to have several components that don't specify any behaviors, and only are concerned with how things are rendered (how they look). These are called presentational components.
+Because we want our list to be a presentational component, we "promote" the onClick handler to become a prop.
+We also want to be more explicit about what the data is that the component needs to render. Instead of passing a todo object, we will pass completed and text fields as separate props.
+```javascript
+const Todo = ({
+  onClick,
+  completed,
+  text
+}) => (
+  <li
+    onClick={onClick}
+    style={{
+      textDecoration:
+        completed ?
+          'line-through' :
+          'none'
+    }}
+  >
+    {text}
+  </li>
+);
+```
+Now our Todo component is purely presentational. It doesn't specify any behavior, but it knows how to render a single todo item.
+
+While presentational components just display data, we need a way to actually pass data from the store. This is where container components come in-- they can specify behavior and pass data.
+
+injected store into TodoApp
+
+```javascript
+ReactDOM.render(
+  <TodoApp store={createStore(todoApp)} />,
+  document.getElementById('root')
+);
+```
+
+Every container component needs a reference to store, and unfortunately the only way to make this happen (for now!) is by pass it down to every component as a prop:
+```javascript
+const TodoApp = ({ store }) => (
+  <div>
+    <AddTodo store={store} />
+    <VisibleTodoList store={store} />
+    <Footer store={store} />
+  </div>
+);
+```
+The containers subscribe to store and update like they did before. What changed is how they get the store.
+
+pass it down as context:
+
+
+Our container components are similar: they need to re-render when the store's state changes, they need to unsubscribe from the store when they unmount, and they take the current state from the Redux store and use it to render the presentational components with some props that they calculate.
+
+### connect()
+The result of the connect call is the container component that is going to render the presentational component. It will calculate the props to pass to the presentational component by merging the objects returned from mapStateToProps, mapDispatchToProps, and its own props
+
+The connect() function will generate the component just like the one we wrote by hand, so we don't have to write the code to subscribe to the store or to specify the context types manually.
+
+Why subscribe to the store if we aren't going to calculate props from the state? Because we don't need to subcribe to the store, we can call connect() without mapStateToProps as an argument, instead passing in null. What this does is tell connect that there is no need to subscribe to the store.
+It's a common pattern to inject just the dispatch function, so if connect() sees that the second argument is null (or any falsey value), you'll get dispatch injected as a prop.
+
+### action creator
+Action creators are typically kept separate from components and reducers in order to help with maintainability
+
 ## Notes
 
 1. This complexity is difficult to handle as we're mixing two concepts that are very hard for the human mind to reason about: mutation and asynchronicity. 
