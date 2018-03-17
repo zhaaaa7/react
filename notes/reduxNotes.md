@@ -82,6 +82,15 @@ It's a common pattern to inject just the dispatch function, so if connect() sees
 ### action creator
 Action creators are typically kept separate from components and reducers in order to help with maintainability
 
+
+### initial state
+When you create a Redux store, its initial state is determined by the root reducer.
+
+Since reducers are autonomous, each of them specifies its own initial state as the default value of the state argument.
+
+When passing in a persistedState, it will **overwrite** the default values set in the reducer as applicable.
+
+
 ## Notes
 
 1. This complexity is difficult to handle as we're mixing two concepts that are very hard for the human mind to reason about: mutation and asynchronicity. 
