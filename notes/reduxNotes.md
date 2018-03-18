@@ -90,6 +90,46 @@ Since reducers are autonomous, each of them specifies its own initial state as t
 
 When passing in a persistedState, it will **overwrite** the default values set in the reducer as applicable.
 
+the only way to get something into the state is to dispatch an action.
+
+It's important that I destructure the filter right away, because by the time the callback fires, this.props.filter might have changed because the user might have navigated away.
+https://github.com/tayiorbeii/egghead.io_idiomatic_redux_course_notes/blob/master/15-Dispatching_Actions_with_the_Fetched_Data.md
+
+```javascript
+fetchData() {
+  const { filter, receiveTodos } = this.props;
+  fetchTodos(filter).then(todos =>
+    receiveTodos(filter, todos)
+  );
+}
+```
+### shorthand 
+```javascript
+const mapDispatchToProps = (dispatch) => ({
+  onTodoClick(id) {
+    dispatch(toggleTodo(id));
+  },
+});
+
+const VisibleTodoList = withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList));
+```
+When the arguments for the callback prop match the arguments to the action creator exactly, there is a shorter way to specify mapDispatchToProps.
+
+Rather than pass a function, we can pass an object mapping of the names of the callback props that we want to inject and the action creator functions that create the corresponding actions.
+
+This is a rather common case, so often you don't need to write mapDispatchToProps, and you can pass this map in object instead.
+
+VisibleTodoList After:
+```javascrip
+const VisibleTodoList = withRouter(connect(
+  mapStateToProps,
+  { onTodoClick: toggleTodo }
+)(TodoList));
+```
+
 
 ## Notes
 
