@@ -283,3 +283,289 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 3. Typically, you just need to generate container components with the React Redux library's connect() function, which provides many useful optimizations to prevent unnecessary re-renders. (One result of this is that you shouldn't have to worry about the React performance suggestion of implementing shouldComponentUpdate yourself.)
 
+
+## concepts
+1. 'dumb' component: A dumb component doesn't contain any business logic. It only specifies how the current state is rendered into output, and how the callbacks passed via props are bound to the event handlers.
+
+The Counter component is a "dumb" component. 
+
+```jsx
+const render = () => {
+  ReactDOM.render(
+    <Counter
+      value={store.getState()}
+      onIncrement={() =>
+        store.dispatch({
+          type: 'INCREMENT'
+        })
+      }
+      onDecrement={() =>
+        store.dispatch({
+          type: 'DECREMENT'
+        })
+      }
+    />,
+    document.getElementById('root')
+  );
+}
+```
+
+2. reducer
+The reducer specifies how the next state is calculated based on the current state and the action being dispatched.
+
+
+3. filter and find the matched one 
+```javascript
+case 'TOGGLE_TODO':
+      return state.map(todo => {
+        if (todo.id !== action.id) {
+          return todo;
+        } else {
+// for the todo that matches the action id return all other information the same
+// but change the completed property to the opposite of what it was previously
+          return {
+            ...todo,
+            completed: !todo.completed
+          };
+        }
+      });
+```
+
+4. reducer composition. Different reducers specify how different parts of the state tree are updated in response to actions. Since reducers are normal JS functions, they can call other reducers to delegate & abstract away updates to the state.
+### Reducer Composition with arrays
+in this new function that state refers to the individual todo, and not the list of todos.
+```javascript
+const todo = (state, action) => {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return {
+        id: action.id,
+        text: action.text,
+        completed: false
+      };
+    case 'TOGGLE_TODO':
+      if (state.id !== action.id) {
+        return state;
+      }
+
+      return {
+        ...state,
+        completed: !state.completed
+      };
+    default:
+      return state;
+  }
+}
+
+const todos = (state = [], action) => {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return [
+        ...state,
+        todo(undefined, action)   //state is not needed here
+      ];
+    case 'TOGGLE_TODO':
+      return state.map(t => todo(t, action));
+    default:
+      return state;
+  }
+};
+```
+### Reducer Composition with Objects 
+
+It is just a reducer that calls all other reducers. 
+
+```javascript
+const visibilityFilter = (
+    state = 'SHOW_ALL',
+    action
+) => {
+    switch (action.type) {
+      case 'SET_VISIBILITY_FILTER':
+        return action.filter;
+      default:
+        return state;
+    }
+};
+
+const todoApp = (state = {}, action) => {
+  return {
+     todos: todos(state.todos,action),
+     visibilityFilter: visibilityFilter(state.visibilityFilter,action)
+  };
+};
+```
+It returns an object which will be assigned to the store. The object has two keys: todos and visibilityFilter. When the store is created, i.e store=createStore(todoApp), it gets a null '{}' action and 'indefined' state, so that each reducer receive undefined as state. As it is, todos reducer returns `[ ]` as the value of todos key, visibilityFilter returns 'SHOW_ALL' as the value of visibilityFilter key. 
+So as soon as the store is created, the initial state of the whole store is set to 
+```
+{
+todos: [],
+visibilityFilter: 'SHOW_ALL'
+}
+```
+
+5. comeReducer
+```javascript
+const { combineReducers } = Redux; // CDN Redux import
+
+const todoApp = combineReducers({
+  todos: todos,
+  visibilityFilter: visibilityFilter
+});
+```
+```javascript
+By convention, the state keys should be named after the reducers that manage them. Because of this, we can use ES6 object literal shorthand notation to accomplish the same thing like this:
+
+const todoApp = combineReducers({
+  todos,
+  visibilityFilter
+});
+```
+Since combineReducers() returns a reducer function, it must have the **signature** of a reducer function (the state and an action).
+
+```javascript
+const combineReducers = reducers => { // accepts an object of list of reducer key-value pairs
+  return (state = {}, action) => {
+    // Reduce all the keys for reducers from `todos` and `visibilityFilter`
+    return Object.keys(reducers).reduce(
+      (nextState, key) => {
+        // Call the corresponding reducer function for a given key, and a given part of the state
+        nextState[key] = reducers[key] (state[key],action);
+        return nextState;
+      },
+      {} // The `reduce` on our keys gradually fills this empty object until it is returned.
+    );
+  };
+};
+```
+
+## react and redux
+1. Any change to state is caused by a store.dispatch() call somewhere in the component.
+```javascript
+class TodoApp extends Component {
+  render() {
+    return (
+      <div>
+        <input ref={node => {
+          this.input = node;
+        }} />
+        <button onClick={() => {
+          store.dispatch({
+            type: 'ADD_TODO',
+            text: this.input.value,
+            id: nextTodoId++
+          });
+          this.input.value = '';
+        }}>
+        Add Todo
+        </button>
+        <ul>
+          {this.props.todos.map(todo =>
+            <li key={todo.id}>
+              {todo.text}
+            </li>
+          )}
+        </ul>
+      </div>
+    )
+  };
+}
+
+const render = () => {
+  ReactDOM.render(
+    // Render the TodoApp Component to the <div> with id 'root'
+    <TodoApp
+      todos={store.getState().todos}
+    />,
+    document.getElementById('root')
+
+  )
+};
+
+store.subscribe(render);
+render();
+```
+
+We start with the TodoApp component. This component isn't aware of how todos are being added, but what it can do is **express its desire to mutate the state** by dispatching an action with a type of 'ADD_TODO'.
+
+it's equally important to be able to render the current state. The TodoApp component assumes that it will receive **todos as a prop**, and it maps the items to display a list, using the id as a key (see the <ul> section in TodoApp).
+
+We render the TodoApp component inside the **render()** function that runs any time the state changes (as well as when the app is initilized.) The render() function reads the current state of the store and passes the array of todos to the TodoApp component as a prop via the line <TodoApp todos={store.getState().todos} />.
+
+The render() function is called every time there is a change to the store, so the todos prop is always **up to date**.
+
+2. spread props object
+```javascript
+const render = () => {
+  ReactDOM.render(
+    <TodoApp
+      {...store.getState()}
+    />,
+    document.getElementById('root')
+  );
+};
+
+store.subscribe(render);
+render();
+```
+
+3. <Provider> component -- pass store down using react context
+  
+  
+4. <connect> component -- make components able to read store (state, state) from props, not context
+  
+ 
+5. action creator -- work on action payloads
+
+
+6. initial state
+
+When you create a Redux store, its initial state is determined by the root reducer. However, sometimes we want to load data into the store synchronously before the application starts. For example, there may be Todos left from the previous session. Redux lets us pass a persistedState as the second argument to the createStore function:
+```javascript
+const persistedState = {
+  todos: [{
+    id: 0,
+    text: 'Welcome Back!',
+    completed: false
+  }]
+}
+
+const store = createStore(
+  todoApp,
+  persistedState
+)
+```
+It may be tempting to supply an initial state for your entire store inside of persistedState, but it is not recommended. If you were to do this, it would become more difficult to test and change your reducers later.
+
+7. local storage  
+
+8. router
+
+
+9. selector -- put them in the file which determines the argument it use
+
+
+10. wrap dispatch()
+10-1. to log state
+
+
+10-2. to recognize promise
+
+
+11. middleware chain
+
+12. loading signifier
+
+13. thunk middleware -- pass store.dispatch to an action that needs it
+thunk: function returned by another function
+```javascript
+export const fetchTodos = (filter) => (dispatch) => {
+  dispatch(requestTodos(filter));
+
+  return api.fetchTodos(filter).then(response => {
+    dispatch(receiveTodos(filter, response));
+  });
+};
+```
+
+14. Normalizing API Responses
