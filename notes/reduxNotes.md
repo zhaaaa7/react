@@ -509,9 +509,96 @@ store.subscribe(render);
 render();
 ```
 
-3. <Provider> component -- pass store down using react context
-  
-  
+3. pass store down 
+3-1. with props
+So far we've been creating a variable called store by passing our combined todoApp reducers into Redux's createStore() function:
+```javascript
+const store = createStore(todoApp);
+ReactDOM.render(
+  <TodoApp />,
+  document.getElementById('root')
+);
+```
+**Once the store has been created, our container components get data from it by calling store.getState(), subscribe to changes by calling store.subscribe(), and dispatch actions by calling store.dispatch()**.
+
+Having all of our code in a single file works well for a simple example, but it doesn't scale very well.
+
+First, it makes our components harder to test because they'll reference a specific store, but we may want to provide a different mock store in the tests.
+
+Second, it makes it hard to implement Universal applications that are rendered on the server, because on the server we'll want to supply a different store instance for every request, because different requests have different data.
+
+To start fixing this, we'll move the code related to creating the store to the bottom of the file, and pass the store we create as a prop to TodoApp.
+
+```javascript
+ReactDOM.render(
+  <TodoApp store={createStore(todoApp)} />,
+  document.getElementById('root')
+);
+```
+
+Every container component needs a reference to store, and unfortunately the only way to make this happen (for now!) is by passing it down to every component as a prop. However, this is less effort than passing different data to every component, but not as good as what we'll have later.
+```javascript
+const TodoApp = ({ store }) => (
+  <div>
+    <AddTodo store={store} />
+    <VisibleTodoList store={store} />
+    <Footer store={store} />
+  </div>
+);
+```
+3-2. via Reatc context https://reactjs.org/docs/context.html
+```javascript
+class Provider extends Component {
+  getChildContext() {
+    return {
+      store: this.props.store // This corresponds to the `store` passed in as a prop
+    };
+  }
+  render() {
+    return this.props.children;
+  }
+}
+
+Provider.childContextTypes = {
+  store: React.PropTypes.object
+}
+
+
+ReactDOM.render(
+  <Provider store={createStore(todoApp)}>
+    <TodoApp />
+  </Provider>,
+  document.getElementById('root')
+);
+
+```
+Now the store will be available to any of the children and grandchildren of the components Provider renders.
+```javascript
+class VisibleTodoList extends Component {
+  componentDidMount() {
+    const { store } = this.context;
+    .
+    .
+    .
+  }
+
+  render() {
+    const props = this.props;
+    const { store } = this.context;
+    const state = store.getState();
+    .
+    .
+    .
+  }
+}
+```
+
+
+3-3. use `<Provider>` component -- pass store down using react context
+``javascript
+import { Provider } from 'react-redux';
+```
+
 4. <connect> component -- make components able to read store (state, state) from props, not context
   
  
