@@ -488,7 +488,7 @@ render();
 
 We start with the TodoApp component. This component isn't aware of how todos are being added, but what it can do is **express its desire to mutate the state** by dispatching an action with a type of 'ADD_TODO'.
 
-it's equally important to be able to render the current state. The TodoApp component assumes that it will receive **todos as a prop**, and it maps the items to display a list, using the id as a key (see the <ul> section in TodoApp).
+it's equally important to be able to render the current state. The TodoApp component assumes that it will receive **todos as a prop**, and it maps the items to display a list, using the id as a key (see the `<ul>` section in TodoApp).
 
 We render the TodoApp component inside the **render()** function that runs any time the state changes (as well as when the app is initilized.) The render() function reads the current state of the store and passes the array of todos to the TodoApp component as a prop via the line <TodoApp todos={store.getState().todos} />.
 
