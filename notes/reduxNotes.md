@@ -674,7 +674,55 @@ const store = createStore(
 ```
 It may be tempting to supply an initial state for your entire store inside of persistedState, but it is not recommended. If you were to do this, it would become more difficult to test and change your reducers later.
 
-7. local storage  
+7. local storage 
+loadState.js
+```javascript
+export const loadState = () => {
+  try {
+    const serializedState = localStorage.getItem('state');
+    if (serializedState === null) {
+      return undefined;
+    }
+    return JSON.parse(serializedState);
+  } catch (err) {
+    return undefined;
+  }
+};
+```
+saveState.js
+```javascript
+export const saveState = (state) => {
+  try {
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem('state', serializedState);
+  } catch (err) {
+    // Ignore write errors.
+  }
+};
+```
+generate random id
+```javascript
+import { v4 } from 'node-uuid'
+
+export const addTodo = (text) => ({
+  type: 'ADD_TODO',
+  id: v4(),
+  text
+})
+```
+preventing calling savaState too often,  guarantee that we only write to localStorage once a second at most.
+```javascript
+import throttle from 'lodash/throttle'
+.
+.
+.
+store.subscribe(throttle(() => {
+  saveState({
+    todos: store.getState().todos
+  })
+}, 1000))
+
+```
 
 8. router
 
@@ -685,11 +733,188 @@ It may be tempting to supply an initial state for your entire store inside of pe
 10. wrap dispatch()
 10-1. to log state
 
+addLoggingToDispatch() function also returns a **function** with the same API as the original dispatch function, but it logs the action type, the previous state, the action, and the next state along the way.
+
+```javascript
+const addLoggingToDispatch = (store) => {
+  const rawDispatch = store.dispatch;
+  return (action) => {
+    console.group(action.type);
+    console.log('prev state', store.getState());
+    console.log('action', action);
+    const returnValue = rawDispatch(action);
+    console.log('next state', store.getState());
+    console.groupEnd(action.type);
+    return returnValue;
+  }
+}
+```
+
 
 10-2. to recognize promise
+a Promise action
+```javascript
+export const fetchTodos = (filter) =>
+  api.fetchTodos(filter).then(response =>
+    receiveTodos(filter, response)
+  );
+```
+the new dispatch
+```javascript
+const addPromiseSupportToDispatch = (store) => {
+  const rawDispatch = store.dispatch;
+  return (action) => {
+    if (typeof action.then === 'function') {  //if action is a Promise
+      return action.then(rawDispatch);    //wait for it to resolve to a normal action object, and pass the returned action to the rawDispatch, and call it
+    }
+    return rawDispatch(action);    //call rawDispatch with the non-Promise, normal action
+  };
+};
+```
+in configure.js
+```javascript
+const configureStore = () => {
+  const store = createStore(todoApp);
+
+  if (process.env.NODE_ENV !== 'production') {    //use logging just in producetion environment
+    store.dispatch = addLoggingToDispatch(store);  
+  }
+
+  store.dispatch = addPromiseSupportToDispatch(store);
+
+  return store;
+};
+```
 
 
 11. middleware chain
+We'll rename rawDispatch to next, because this is the next dispatch function in the chain. `next` refers to the store.dispatch that was returned from **addLoggingToDispatch()**.
+
+```javascript
+const addPromiseSupportToDispatch = (store) => {
+  const next = store.dispatch;
+  return (action) => {
+    if (typeof action.then === 'function') {
+      return action.then(next);
+    }
+    return next(action);
+  };
+};
+```
+For consistency, we will rename rawDispatch to next here as well. In this particular case, next points to the **original store.dispatch**.
+```javascript
+const addLoggingToDispatch = (store) => {
+  const next = store.dispatch;
+  if (!console.group) {
+    return next;
+  }
+
+  return (action) => {
+    console.group(action.type);
+    console.log('%c prev state', 'color: gray', store.getState());
+    console.log('%c action', 'color: blue', action);
+
+    const returnValue = next(action);
+
+    console.log('%c next state', 'color: green', store.getState());
+    console.groupEnd(action.type);
+    return returnValue;
+  };
+};
+```
+### middlewares array
+This middlewares array will contain functions to be applied later as a single step.
+
+Now we create a function wrapDispatchWithMiddlewares() that takes the store as the first argument, and the array of middlewares as the second.
+```javascript
+const configureStore = () => {
+  const store = createStore(todoApp);
+  const middlewares = [promise];
+
+   .
+   .
+   .
+};
+```
+
+we will **override the store.dispatch function** to point to the result of calling the middleware with the store as an argument.
+```javascript
+const wrapDispatchWithMiddlewares = (store, middlewares) =>
+  middlewares.forEach(middleware =>
+    store.dispatch = middleware(store);
+  );
+```
+Recall that inside of our middleware functions themselves, there is a certain pattern that we have to repeat. We **grabbing the value of store.dispatch and store it in a variable called next that we call later**. To make it a part of the **middleware contract**, we can make next an outside argument, just like the store before it and the action after it.
+```javascript
+const logger = (store) => {
+  return (next) => {
+    if (!console.group) {
+      return next;
+    }
+
+    return (action) => {
+      console.group(action.type);
+      console.log('%c prev state', 'color: gray', store.getState());
+      console.log('%c action', 'color: blue', action);
+
+      const returnValue = next(action);
+
+      console.log('%c next state', 'color: green', store.getState());
+      console.groupEnd(action.type);
+      return returnValue;
+    };
+  }
+};
+
+const promise = (store) => (next) => (action) => {
+  if (typeof action.then === 'function') {
+    return action.then(next);
+  }
+  return next(action);
+}
+
+```
+### where does next come from?
+Our middlewares are currently specified in the order in which the dispatch function is overridden, but it would be more natural to specify the **order in which the action propagates through the middlewares**.
+```javascript
+const configureStore = () => {
+  const store = createStore(todoApp);
+  const middlewares = [];
+
+  if (process.env.NODE_ENV !== 'production') {
+    middlewares.push(logger);
+  }
+
+  middlewares.push(push);
+  
+  wrapDispatchWithMiddlewares(store, middlewares)
+  return store;
+};
+
+```
+
+We will change our middleware declaration to specify them in the order in which the action travels through them. The `next` means the next item in the array.
+```javascript
+const configureStore = () => {
+  const store = createStore(todoApp);
+  const middlewares = [promise];
+
+  if (process.env.NODE_ENV !== 'production') {
+    middlewares.push(logger);
+  }
+
+  wrapDispatchWithMiddlewares(store, middlewares);
+
+  return store;
+};
+```
+We will also wrapDispatchWithMiddlewares from right to left by cloning the past array then reversing it. So the `next` in each middleware refers to the returned new version of store.dispatch() in the middleware `after` it in the middlewares array.
+```javascript
+const wrapDispatchWithMiddlewares = (store, middlewares) =>
+  middlewares.slice().reverse().forEach(middleware => {
+    store.dispatch = middleware(store)(store.dispatch);
+  });
+```
 
 12. loading signifier
 
