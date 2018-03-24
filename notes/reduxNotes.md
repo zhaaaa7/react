@@ -577,33 +577,83 @@ Now the store will be available to any of the children and grandchildren of the 
 class VisibleTodoList extends Component {
   componentDidMount() {
     const { store } = this.context;
-    .
-    .
-    .
+    this.unsubscribe=store.subscribe(()=>this.forceUpdate());
   }
-
+  componentWillUnmount(){
+    this.unsubscribe();
+  }
   render() {
     const props = this.props;
     const { store } = this.context;
     const state = store.getState();
-    .
-    .
-    .
+    
+    return (
+      <TodoList
+       todos={getVisibleTodos (state.todos,state.visibilityFilter)}
+       onTodoClick=(id) => {store.dispatch({type: 'TOGGLE_TODO',id})}
+       />
+    );
   }
 }
 ```
 
 
 3-3. use `<Provider>` component -- pass store down using react context
-``javascript
+```javascript
 import { Provider } from 'react-redux';
 ```
 
-4. <connect> component -- make components able to read store (state, state) from props, not context
-  
- 
-5. action creator -- work on action payloads
+4. `<connect>` component -- make components able to read store (state, state) from props, not context
 
+Our container components are similar: they need to re-render when the store's state changes, they need to unsubscribe from the store when they unmount, and they take the current state from the Redux store and use it to render the presentational components with some props that they calculate.
+
+They also need to specify the contextTypes to get the store from the context.
+
+```javascript
+const mapStateToProps = (state) => {
+  return 
+  {
+    todos: getVisibleTodos (state.todos,state.visibilityFilter)
+  };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return 
+  {
+    onTodoClick: (id) => {dispatch({type: 'TOGGLE_TODO',id})}
+  };
+};
+```
+
+`connect` component will take care of the context, you can just use the state and dispatch from the store in the context
+
+```javascript
+import { connect } from 'react-redux';
+
+const VisibleTodoList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList)
+```
+Now, you have a container component VisibleTodoList which renders the presentational component TodoList, passing the `todos` and `onTodoClick` as props.
+
+5. action creator -- a function that returns an action object, give you a chance to work on action payloads
+```javascript
+let nextTodoId = 0;
+const addTodo = (text) => {
+  return {
+    type: 'ADD_TODO',
+    id: nextTodoId++,
+    text
+  };
+};
+
+//use the action creator
+<button onClick={() => {
+  dispatch(addTodo(input.value))
+  input.value = '';
+}}>
+```
 
 6. initial state
 
