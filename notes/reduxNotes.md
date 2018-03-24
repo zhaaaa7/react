@@ -25,7 +25,7 @@ https://github.com/tayiorbeii/egghead.io_idiomatic_redux_course_notes
 
 
 ## foundamental concepts
-<img src="https://github.com/zhaaaa7/react/blob/master/notes/redux.png" alt='redux' width="800px"/>
+<img src="https://github.com/zhaaaa7/react/blob/master/notes/redux.jpg" alt='redux' width="800px"/>
 
 ### createStore(reducer)
 ```javascript
