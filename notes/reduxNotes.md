@@ -288,6 +288,63 @@ We render the TodoApp component inside the **render()** function that runs any t
 
 The render() function is called every time there is a change to the store, so the todos prop is always **up to date**.
 
+1-1. extracting container component
+```javascript
+class FilterLink extends Component {
+  render () {
+    const props = this.props;
+    
+    // this just reads the store, is not listening for change messages from the store updating
+    const state = store.getState();
+
+    return (
+      <Link
+        active={
+          props.filter ===
+          state.visibilityFilter
+        }
+        onClick={() =>
+          store.dispatch({
+            type: 'SET_VISIBILITY_FILTER',
+            filter: props.filter
+          })
+        }
+      >
+        {props.children}
+      </Link>
+    );
+  }
+}
+```
+There is a small problem with this implementation of FilterLink. Inside the render() method it reads the current state of the Redux store, however it **does not subscribe to the store**. So if the parent component doesn't update when the store is updated, the correct value won't be rendered.
+
+Also, we currently re-render the entire application when the state changes, which isn't very efficient.
+```
+store.subscribe(render);
+```
+
+React provides a special **forceUpdate()** method on the Component instances to force them to re-render. We can use it in combination with the store.subscribe() method, so that **any time the store changes we force the container component to update**.
+
+```javascript
+class FilterLink extends Component {
+  componentDidMount() {
+    this.unsubscribe = store.subscribe(() =>
+      this.forceUpdate()
+    );
+  }
+
+  // Since the subscription happens in `componentDidMount`, it's important to unsubscribe in `componentWillUnmount`.
+  componentWillUnmount() {
+    this.unsubscribe(); // return value of `store.subscribe()`
+  }
+  
+  render(){
+  .
+  .
+  .
+  }
+``` 
+
 2. spread props object
 ```javascript
 const render = () => {
