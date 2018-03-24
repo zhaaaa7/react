@@ -20,12 +20,62 @@ https://github.com/tayiorbeii/egghead.io_idiomatic_redux_course_notes
 ## Why does redux exist?
 1. The complexity is difficult to handle as we're mixing two concepts that are very hard for the human mind to reason about: mutation and asynchronicity. 
 2. Libraries like React attempt to solve this problem in the view layer by removing both asynchrony and direct DOM manipulation.
-3. However, managing the state of your data is left up to you. This is where Redux enters. Redux attempts to make state mutations predictable by imposing certain restrictions on how and when updates can happen. 
+3. However, managing the state of your data is left up to you. This is where Redux enters. Redux attempts to make state mutations predictable by imposing certain restrictions on how and when updates can happen.
+4. Redux works especially well with libraries like React and Deku because they let you describe UI as a function of state, and Redux emits state updates in response to actions.
 
 
 ## foundamental concepts
-<img src="https://github.com/zhaaaa7/react/blob/master/notes/redux.png" alt='redux' width="900px"/>
+<img src="https://github.com/zhaaaa7/react/blob/master/notes/redux.png" alt='redux' width="800px"/>
+### createStore(reducer)
+```javascript
+const createStore = (reducer) => {
+  let state;
+  let listeners = [];
+  
+  // return state
+  const getState = () => state;
+  
+  // update state with reducer, call each listener
+  const dispatch = (action) => {
+    state = reducer(state, action);
+    listeners.forEach(listener => listener());
+  };
+  
+  // register listeners, return an unsubscribe method, 
+  const subscribe = (listener) => {
+    listeners.push(listener);
+    return () => {
+      listeners = listeners.filter(l => l !== listener); // const l=store.subscribe(listener1); l();
+    }
+  };
 
+  dispatch({}); // dispatch a null action to initiate the store
+
+  return { getState, dispatch, subscribe };
+
+};
+
+### reducer
+* The reducer is a pure function that takes the previous state and an action, and returns the next state.
+* reducer must be pure
+* you need to teach it to understand the actions we defined
+* immutability
+https://github.com/tayiorbeii/egghead.io_redux_course_notes/blob/master/05-Avoiding_Array_Mutations.md
+
+## subscribe
+subscribe() registers a callback that the redux store will call any time an **action has been dispatched** so you can update the UI of your application to reflect the current application state
+```javascript
+const render = () => {
+  document.body.innerText = store.getState();
+};
+
+store.subscribe(render);
+render(); // calling once to render the initial state (0), then the subscribe will update subsequently
+
+document.addEventListener('click', () => {
+    store.dispatch({ type : 'INCREMENT' })
+});
+```
 ## concepts
 1. 'dumb' component: A dumb component doesn't contain any business logic. It only specifies how the current state is rendered into output, and how the callbacks passed via props are bound to the event handlers.
 
@@ -396,6 +446,15 @@ const addTodo = (text) => {
   input.value = '';
 }}>
 ```
+f there is only one return statement, omit the {}, if the returned one is an object, wrap it in () so the **parser understands it is an (object) expression, not a block**.
+```javascript
+export const addTodo = (text) => ({
+  type:'ADD_TODO',
+  id: (nextTodoId++).toString(),
+  text,
+})
+```
+
 
 6. initial state
 
@@ -780,3 +839,13 @@ const VisibleTodoList = withRouter(connect(
   { onTodoClick: toggleTodo }
 )(TodoList));
 ```
+
+use concise method notation
+```javascrip
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    onClick() {
+      dispatch(setVisibilityFilter(ownProps.filter))
+    }
+})
+```
+13. Technically, a container component is just a React component that uses store.subscribe() to **read a part of the Redux state tree and supply props to a presentational component it renders**. Typically, you just need to generate container components with the React Redux library's connect() function, which provides many useful optimizations to prevent unnecessary re-renders. (One result of this is that you shouldn't have to worry about the React performance suggestion of implementing shouldComponentUpdate yourself.)
