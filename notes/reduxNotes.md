@@ -26,6 +26,7 @@ https://github.com/tayiorbeii/egghead.io_idiomatic_redux_course_notes
 
 ## foundamental concepts
 <img src="https://github.com/zhaaaa7/react/blob/master/notes/redux.png" alt='redux' width="800px"/>
+
 ### createStore(reducer)
 ```javascript
 const createStore = (reducer) => {
@@ -54,6 +55,7 @@ const createStore = (reducer) => {
   return { getState, dispatch, subscribe };
 
 };
+```
 
 ### reducer
 * The reducer is a pure function that takes the previous state and an action, and returns the next state.
