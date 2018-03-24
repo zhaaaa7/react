@@ -916,7 +916,35 @@ const wrapDispatchWithMiddlewares = (store, middlewares) =>
   });
 ```
 
-12. loading signifier
+12. use applyMiddleware
+
+This last argument to createStore is called an enhancer, and it's optional. If you want to specify the persistedState, you need to do this before the enhancer (you can also skip the persistedState if you don't have it).
+
+Many middlewares are available as **npm packages**. Both the promise and the logger middlewares that we wrote are no exceptions to this.
+
+```javascript
+import { createStore, applyMiddleware } from 'redux';
+import promise from 'redux-promise';
+import createLogger from 'redux-logger';
+import todoApp from './reducers';
+
+const configureStore = () => {
+  const middlewares = [promise];
+  if (process.env.NODE_ENV !== 'production') {
+    middlewares.push(createLogger());
+  }
+
+  return createStore(
+    todoApp,
+    applyMiddleware(...middlewares)
+  );
+};
+
+export default configureStore;
+```
+The second argument to createStore here will be the result of calling applyMiddleware with my middleware functions as positional arguments.
+
+
 
 13. thunk middleware
 
@@ -930,6 +958,7 @@ const thunk = (store) => (next) => (action) =>
 const middlewares = [thunk]; // add thunk as a middleware
 ```
 
+dispatch an action in another action creator function
 
 ```javascript
 export const fetchTodos = (filter) => (dispatch) => {
