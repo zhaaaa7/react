@@ -448,7 +448,7 @@ const addTodo = (text) => {
   input.value = '';
 }}>
 ```
-f there is only one return statement, omit the {}, if the returned one is an object, wrap it in () so the **parser understands it is an (object) expression, not a block**.
+If there is only one return statement, omit the {}, if the returned one is an object, wrap it in () so the **parser understands it is an (object) expression, not a block**.
 ```javascript
 export const addTodo = (text) => ({
   type:'ADD_TODO',
