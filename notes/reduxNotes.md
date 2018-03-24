@@ -693,8 +693,19 @@ It may be tempting to supply an initial state for your entire store inside of pe
 
 12. loading signifier
 
-13. thunk middleware -- pass store.dispatch to an action that needs it
+13. thunk middleware
+
 thunk: function returned by another function
+```javascript
+const thunk = (store) => (next) => (action) =>
+  typeof action === 'function' 
+  ? action(store.dispatch)  // pass store.dispatch to an action that needs it
+  : next(action);
+  
+const middlewares = [thunk]; // add thunk as a middleware
+```
+
+
 ```javascript
 export const fetchTodos = (filter) => (dispatch) => {
   dispatch(requestTodos(filter));
