@@ -215,6 +215,57 @@ if(this.state.showPersons){
       );
   ```
 'key' property is required to make the render proecess more efficient: react track each list item here. It should be placed on the outermost component in map function.
+
+7. event handler
+in App.js
+```jsx
+nameChangedHandler=(event,id)=>{
+    //find the one that receiving user input
+    const personIndex=this.state.persons.findIndex(p=>{
+        return p.id===id; //return ture or false
+    });
+    const person={...this.state.persons[personIndex]}
+    person.name=event.target.value;
+    const persons=[...this.state.persons];
+    persons[personIndex]=person;
+    this.setState({persons:persons});
+
+}
+
+.
+.
+.
+person=(<div>
+            {this.state.persons.map((person,index)=>{
+              return <Person
+                click={()=>this.deletePersonHandler(index)} //should be a function expression
+                name={person.name}
+                age={person.age}
+                key={person.id}
+                changed={(event)=>this.nameChangedHandler(event,person.id)}
+                />
+            })}
+            </div> 
+);
+        
+        
+```
+
+in Person.js
+```jsx
+return (
+    <div className="Person" style={style}>
+      <p onClick={props.click}> I'm {props.name} and I am {props.age} years old</p>
+      <p>{props.children}</p>
+      <input type="text" onChange={props.changed} value={props.name}/>
+
+    </div>
+
+    )
+```
+
+event handler should be a function expression. to pass down the arguments, wrap the function in a higer order function. The process of passing the arguments is **from UI up to inside of component**: `<input onChange>` pass event to `<Person changed>`, `<Person changed>` pass event, person.id to the nameChangedHandler method.
+
   
 ## Some tips
 
