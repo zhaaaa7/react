@@ -58,6 +58,8 @@ const createStore = (reducer) => {
 ```
 
 ### reducer
+The reducer specifies how the next state is calculated based on the current state and the action being dispatched.
+
 * The reducer is a pure function that takes the previous state and an action, and returns the next state.
 * reducer must be pure
 * you need to teach it to understand the actions we defined
@@ -78,6 +80,7 @@ document.addEventListener('click', () => {
     store.dispatch({ type : 'INCREMENT' })
 });
 ```
+
 ## concepts
 1. 'dumb' component: A dumb component doesn't contain any business logic. It only specifies how the current state is rendered into output, and how the callbacks passed via props are bound to the event handlers.
 
@@ -104,11 +107,7 @@ const render = () => {
 }
 ```
 
-2. reducer
-The reducer specifies how the next state is calculated based on the current state and the action being dispatched.
-
-
-3. filter and find the matched one 
+2. filter and find the matched one 
 ```javascript
 case 'TOGGLE_TODO':
       return state.map(todo => {
@@ -125,8 +124,11 @@ case 'TOGGLE_TODO':
       });
 ```
 
-4. reducer composition. Different reducers specify how different parts of the state tree are updated in response to actions. Since reducers are normal JS functions, they can call other reducers to delegate & abstract away updates to the state.
-### Reducer Composition with arrays
+3. reducer composition. 
+
+Different reducers specify how different parts of the state tree are updated in response to actions. Since reducers are normal JS functions, they can call other reducers to delegate & abstract away updates to the state.
+
+##### Reducer Composition with arrays
 in this new function that state refers to the individual todo, and not the list of todos.
 ```javascript
 const todo = (state, action) => {
@@ -165,7 +167,7 @@ const todos = (state = [], action) => {
   }
 };
 ```
-### Reducer Composition with Objects 
+##### Reducer Composition with Objects 
 
 It is just a reducer that calls all other reducers. 
 
@@ -198,7 +200,7 @@ visibilityFilter: 'SHOW_ALL'
 }
 ```
 
-5. comeReducer
+4. combineReducer
 ```javascript
 const { combineReducers } = Redux; // CDN Redux import
 
@@ -344,6 +346,22 @@ class FilterLink extends Component {
   .
   }
 ``` 
+We can get rid of the render() function because the container components inside of TodoApp are now set up to get state and update themselves as needed, therefore, we only need to render TodoApp once on initialization.
+```javascript
+const TodoApp = () => (
+  <div>
+    <AddTodo />
+    <VisibleTodoList />
+    <Footer />
+  </div>
+);
+
+// Note this render does not belong to `TodoApp`
+ReactDOM.render(
+  <TodoApp />,
+  document.getElementById('root')
+);
+```
 
 2. spread props object
 ```javascript
@@ -699,7 +717,7 @@ const addLoggingToDispatch = (store) => {
   };
 };
 ```
-### middlewares array
+##### middlewares array
 This middlewares array will contain functions to be applied later as a single step.
 
 Now we create a function wrapDispatchWithMiddlewares() that takes the store as the first argument, and the array of middlewares as the second.
@@ -751,7 +769,7 @@ const promise = (store) => (next) => (action) => {
 }
 
 ```
-### where does next come from?
+##### where does next come from?
 Our middlewares are currently specified in the order in which the dispatch function is overridden, but it would be more natural to specify the **order in which the action propagates through the middlewares**.
 ```javascript
 const configureStore = () => {
