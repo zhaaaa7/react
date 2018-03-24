@@ -1,4 +1,8 @@
 ## Source:
+Docs: 
+
+https://redux.js.org/introduction
+
 Getting Started with Redux - Video Series
 
 https://egghead.io/series/getting-started-with-redux
@@ -12,277 +16,15 @@ https://egghead.io/series/building-react-applications-with-idiomatic-redux
 
 https://github.com/tayiorbeii/egghead.io_idiomatic_redux_course_notes
 
-Docs: https://redux.js.org/introduction
 
-## key sentence
-Any change to state is caused by a store.dispatch() call somewhere in the component.
-
-he todoApp reducer is the root reducer in this application. It is the one the store was created with, so its next state is the next state of the Redux store, and all the listeners(callbacks that have subscribed to the store) are notified.
-
-It's best practice with React to have several components that don't specify any behaviors, and only are concerned with how things are rendered (how they look). These are called presentational components.
-Because we want our list to be a presentational component, we "promote" the onClick handler to become a prop.
-We also want to be more explicit about what the data is that the component needs to render. Instead of passing a todo object, we will pass completed and text fields as separate props.
-```javascript
-const Todo = ({
-  onClick,
-  completed,
-  text
-}) => (
-  <li
-    onClick={onClick}
-    style={{
-      textDecoration:
-        completed ?
-          'line-through' :
-          'none'
-    }}
-  >
-    {text}
-  </li>
-);
-```
-Now our Todo component is purely presentational. It doesn't specify any behavior, but it knows how to render a single todo item.
-
-While presentational components just display data, we need a way to actually pass data from the store. This is where container components come in-- they can specify behavior and pass data.
-
-injected store into TodoApp
-
-```javascript
-ReactDOM.render(
-  <TodoApp store={createStore(todoApp)} />,
-  document.getElementById('root')
-);
-```
-
-Every container component needs a reference to store, and unfortunately the only way to make this happen (for now!) is by pass it down to every component as a prop:
-```javascript
-const TodoApp = ({ store }) => (
-  <div>
-    <AddTodo store={store} />
-    <VisibleTodoList store={store} />
-    <Footer store={store} />
-  </div>
-);
-```
-The containers subscribe to store and update like they did before. What changed is how they get the store.
-
-pass it down as context:
-
-
-Our container components are similar: they need to re-render when the store's state changes, they need to unsubscribe from the store when they unmount, and they take the current state from the Redux store and use it to render the presentational components with some props that they calculate.
-
-### connect()
-The result of the connect call is the container component that is going to render the presentational component. It will calculate the props to pass to the presentational component by merging the objects returned from mapStateToProps, mapDispatchToProps, and its own props
-
-The connect() function will generate the component just like the one we wrote by hand, so we don't have to write the code to subscribe to the store or to specify the context types manually.
-
-Why subscribe to the store if we aren't going to calculate props from the state? Because we don't need to subcribe to the store, we can call connect() without mapStateToProps as an argument, instead passing in null. What this does is tell connect that there is no need to subscribe to the store.
-It's a common pattern to inject just the dispatch function, so if connect() sees that the second argument is null (or any falsey value), you'll get dispatch injected as a prop.
-
-### action creator
-Action creators are typically kept separate from components and reducers in order to help with maintainability
-
-
-### initial state
-When you create a Redux store, its initial state is determined by the root reducer.
-
-Since reducers are autonomous, each of them specifies its own initial state as the default value of the state argument.
-
-When passing in a persistedState, it will **overwrite** the default values set in the reducer as applicable.
-
-the only way to get something into the state is to dispatch an action.
-
-It's important that I destructure the filter right away, because by the time the callback fires, this.props.filter might have changed because the user might have navigated away.
-https://github.com/tayiorbeii/egghead.io_idiomatic_redux_course_notes/blob/master/15-Dispatching_Actions_with_the_Fetched_Data.md
-
-```javascript
-fetchData() {
-  const { filter, receiveTodos } = this.props;
-  fetchTodos(filter).then(todos =>
-    receiveTodos(filter, todos)
-  );
-}
-```
-### shorthand 
-```javascript
-const mapDispatchToProps = (dispatch) => ({
-  onTodoClick(id) {
-    dispatch(toggleTodo(id));
-  },
-});
-
-const VisibleTodoList = withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TodoList));
-```
-When the arguments for the callback prop match the arguments to the action creator exactly, there is a shorter way to specify mapDispatchToProps.
-
-Rather than pass a function, we can pass an object mapping of the names of the callback props that we want to inject and the action creator functions that create the corresponding actions.
-
-This is a rather common case, so often you don't need to write mapDispatchToProps, and you can pass this map in object instead.
-
-VisibleTodoList After:
-```javascrip
-const VisibleTodoList = withRouter(connect(
-  mapStateToProps,
-  { onTodoClick: toggleTodo }
-)(TodoList));
-```
-
-
-## Notes
-
-1. This complexity is difficult to handle as we're mixing two concepts that are very hard for the human mind to reason about: mutation and asynchronicity. 
+## Why does redux exist?
+1. The complexity is difficult to handle as we're mixing two concepts that are very hard for the human mind to reason about: mutation and asynchronicity. 
 2. Libraries like React attempt to solve this problem in the view layer by removing both asynchrony and direct DOM manipulation.
 3. However, managing the state of your data is left up to you. This is where Redux enters. Redux attempts to make state mutations predictable by imposing certain restrictions on how and when updates can happen. 
-## reducer
-* The reducer is a pure function that takes the previous state and an action, and returns the next state.
-* reducer must be pure
-* you need to teach it to understand the actions we defined
-* immutability
-https://github.com/tayiorbeii/egghead.io_redux_course_notes/blob/master/05-Avoiding_Array_Mutations.md
-
-### combineReducer
-```javascript
-const combineReducers = reducers => {
-  return (state = {}, action) => {
-
-    // Reduce all the keys for reducers from `todos` and `visibilityFilter`
-    return Object.keys(reducers).reduce(
-      (nextState, key) => {
-        // Call the corresponding reducer function for a given key
-        nextState[key] = reducers[key] (
-          state[key],
-          action
-        );
-        return nextState;
-      },
-      {} // The `reduce` on our keys gradually fills this empty object until it is returned.
-    );
-  };
-};
-```
-### initial state
-1. the second argument in createStore() is the initial state. If not provided, i.e. undefined, the default value in each reducer will work.
-2. persisting the initial state in local storage
-use uuid package to avoid key collision
-```
-$ npm install --save node-uuid
-```
-```
-stringify() is expensive
-```
-
-### selectors -- We usually call these functions selectors because they select something from the current state.
-https://github.com/tayiorbeii/egghead.io_idiomatic_redux_course_notes/blob/master/10-Colocating_Selectors_with_Reducers.md
-
-```javascript
-export const getVisibleTodos = (state, filter) => {
-  switch (filter) {
-    case 'all':
-      return state;
-    case 'completed':
-      return state.filter(t => t.completed);
-    case 'active':
-      return state.filter(t => !t.completed);
-    default:
-      throw new Error(`Unknown filter: ${filter}.`);
-  }
-};
-```
 
 
-## store
-1.subscribe() registers a callback that the redux store will call any time an **action has been dispatched** so you can update the UI of your application to reflect the current application state
-```javascript
-const render = () => {
-  document.body.innerText = store.getState();
-};
-
-store.subscribe(render);
-render(); // calling once to render the initial state (0), then the subscribe will update subsequently
-
-document.addEventListener('click', () => {
-    store.dispatch({ type : 'INCREMENT' })
-});
-```
-2. what's inside a createStore?
-
-https://github.com/tayiorbeii/egghead.io_redux_course_notes/blob/master/03-Implementing_Store_from_Scratch.md
-
-
-```javascript
-const createStore = (reducer) => {
-  let state;
-  let listeners = [];
-
-  const getState = () => state;
-
-  const dispatch = (action) => {
-    state = reducer(state, action);
-    listeners.forEach(listener => listener());
-  };
-
-  const subscribe = (listener) => {
-    listeners.push(listener);
-    return () => {
-      listeners = listeners.filter(l => l !== listener);
-    }
-  };
-
-  dispatch({}); // dummy dispatch
-
-  return { getState, dispatch, subscribe };
-
-};
-```
-
-### connect()
-1. connect () works to pass the store down, it also does the subscribe and unsubscribe stuff for you.
-
-
-
-## action
-
-### action creator
-use arrow function: if there is only one return statement, omit the {}, if the returned one is an object, wrap it in () so the parser understands it is an (object) expression, not a block.
-```javascript
-export const addTodo = (text) => ({
-  type:'ADD_TODO',
-  id: (nextTodoId++).toString(),
-  text,
-})
-```
-
-use concise method notation
-```javascrip
-const mapDispatchToProps = (dispatch, ownProps) => ({
-    onClick() {
-      dispatch(setVisibilityFilter(ownProps.filter))
-    }
-})
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1.  Redux works especially well with libraries like React and Deku because they let you describe UI as a function of state, and Redux emits state updates in response to actions.
-
-2. Technically, a container component is just a React component that uses store.subscribe() to read a part of the Redux state tree and supply props to a presentational component it renders. 
-
-3. Typically, you just need to generate container components with the React Redux library's connect() function, which provides many useful optimizations to prevent unnecessary re-renders. (One result of this is that you shouldn't have to worry about the React performance suggestion of implementing shouldComponentUpdate yourself.)
-
+## foundamental concepts
+<img src="https://github.com/zhaaaa7/react/blob/master/notes/redux.png" alt='redux' width="900px"/>
 
 ## concepts
 1. 'dumb' component: A dumb component doesn't contain any business logic. It only specifies how the current state is rendered into output, and how the callbacks passed via props are bound to the event handlers.
@@ -729,6 +471,23 @@ store.subscribe(throttle(() => {
 
 9. selector -- put them in the file which determines the argument it use
 
+"We usually call these functions selectors because they select something from the current state."
+https://github.com/tayiorbeii/egghead.io_idiomatic_redux_course_notes/blob/master/10-Colocating_Selectors_with_Reducers.md
+
+```javascript
+export const getVisibleTodos = (state, filter) => {
+  switch (filter) {
+    case 'all':
+      return state;
+    case 'completed':
+      return state.filter(t => t.completed);
+    case 'active':
+      return state.filter(t => !t.completed);
+    default:
+      throw new Error(`Unknown filter: ${filter}.`);
+  }
+};
+```
 
 10. wrap dispatch()
 10-1. to log state
@@ -971,3 +730,53 @@ export const fetchTodos = (filter) => (dispatch) => {
 ```
 
 14. Normalizing API Responses
+
+## key sentence
+1. Any change to state is caused by a store.dispatch() call somewhere in the component. / The only way to get something into the state is to dispatch an action.
+
+2. The todoApp reducer is the root reducer in this application. It is the one the store was created with, so its next state is the next state of the Redux store, and all the listeners(callbacks that have subscribed to the store) are notified.
+
+3. It's best practice with React to have several components that don't specify any behaviors, and only are concerned with how things are rendered (how they look). These are called presentational components.
+
+4. While presentational components just display data, we need a way to actually pass data from the store. This is where container components come in-- they can specify behavior and pass data.
+
+5. Every container component needs a reference to store, you can pass it via props, or context, or use `<connect>` component.
+
+6. The result of the connect call is the **container component** that is going to render the presentational component. It will calculate the props to pass to the presentational component by merging the objects returned from **mapStateToProps, mapDispatchToProps, and its own props**.
+
+7. If we don't need to subcribe to the store, we can call connect() without mapStateToProps as an argument, instead passing in **null**. What this does is tell connect that there is no need to subscribe to the store.
+It's a common pattern to inject just the dispatch function, so if connect() sees that the second argument is **null (or any falsey value)**, you'll get dispatch injected as a prop.
+
+8. Action creators are typically kept separate from components and reducers in order to help with maintainability.
+
+9. When you create a Redux store, its initial state is determined by the root reducer. Since **reducers are autonomous**, each of them **specifies its own initial state** as the default value of the state argument. (split the state tree/object into different key-value pairs)
+
+10. When passing in a persistedState, it will **overwrite** the default values set in the reducer as applicable.
+
+11. destructuring is a way to save the value of props at the time you need it.
+"It's important that I destructure the filter right away, because by the time the callback fires, this.props.filter might have changed because the user might have navigated away."
+https://github.com/tayiorbeii/egghead.io_idiomatic_redux_course_notes/blob/master/15-Dispatching_Actions_with_the_Fetched_Data.md
+
+12. shorthand 
+```javascript
+const mapDispatchToProps = (dispatch) => ({
+  onTodoClick(id) {
+    dispatch(toggleTodo(id));
+  },
+});
+
+const VisibleTodoList = withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList));
+```
+When the arguments for the **callback** prop match the arguments to the **action creator** exactly, there is a shorter way to specify mapDispatchToProps. Rather than pass a function, we can pass an **object mapping of the names of the callback props** that we want to inject and the action creator functions that create the corresponding actions.
+
+This is a rather common case, so often you don't need to write mapDispatchToProps, and you can pass this map in object instead.
+
+```javascrip
+const VisibleTodoList = withRouter(connect(
+  mapStateToProps,
+  { onTodoClick: toggleTodo }
+)(TodoList));
+```
