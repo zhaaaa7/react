@@ -264,7 +264,7 @@ return (
     )
 ```
 
-event handler should be a function expression. to pass down the arguments, wrap the function in a higer order function. The process of passing the arguments is **from UI up to inside of component**: `<input onChange>` pass event to `<Person changed>`, `<Person changed>` pass event, person.id to the nameChangedHandler method.
+event handler should be a function expression. to pass down the arguments, wrap the function in a higer order function. React will pass the event object as the last argument is you don't explicitly pass it. The process of passing the arguments is **from UI up to inside of component**: `<input onChange>` pass event to `<Person changed>`, `<Person changed>` pass event, person.id to the nameChangedHandler method.
 
   
 ## Some tips
