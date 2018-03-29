@@ -88,9 +88,9 @@ to define a global styling rule
 ```
 ## Debugging
 1. react-dev-tool https://github.com/facebook/react-devtools
-2. error boundary component(react 16) https://reactjs.org/docs/error-boundaries.html
+2. error boundary component ( react 16) https://reactjs.org/docs/error-boundaries.html
 
-componentDidCatch() lifecycle method, put it somewhere you know error may happen.
+componentDidCatch() lifecycle method, put it somewhere you know error may happen but you can't control it.
 ```javascript
 class ErrorBoundary extends Component{
     state={
