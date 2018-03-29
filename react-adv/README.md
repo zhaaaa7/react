@@ -120,9 +120,11 @@ class ErrorBoundary extends Component{
 ## react concepts
 1. stateful(class) and stateless(function) components. Use stateful components as little as possible.
 2. setState() 
+
 1)this.setState automatically calls render, so don't use it in render, otherwise it would create an infinite loop
 
-2)is async, so use the function form if wanting to use the previous state, such us counting.
+2)is async, it calls the render() but not synchronously, it just put the new state in the event queue. so use the functional form if wanting to use the previous state, such us counting. 
+
 ```javascript
 this.setState((prevState,props)=>{
     return{
@@ -135,7 +137,7 @@ this.setState((prevState,props)=>{
 
 Don't update state (setState) in componentDidMount().
 
-Only in componentShouldUpdate(), you return true or false to decide whether to continue the update process, it can save the unnecessary effort of rebuilding the DOM. For example, a component to be animated is, for the most of the time, out of the screen. You can update the state only when it appears in the viewpoint.
+The best lifecycle to use setState() is componentShouldUpdate(), you return true or false to decide whether to continue the update process, it can save the unnecessary effort of rebuilding the DOM. For example, a component to be animated is, for the most of the time, out of the screen. You can update the state only when it appears in the viewpoint.
 
 These methods will never called through DOM events, so no 'this' keyword issue.
 
@@ -149,7 +151,7 @@ if (nextProps.xxx===this.props.xxx, nextState.xxx===this.State.xxx)
 
 Here, PureComponent has built-in componentShouldUpdate() check rules. Children components will benefit from the parent PureComponent.
 
-5. virtual DOM https://reactjs.org/docs/faq-internals.html, render() changes the virtual DOM.
+5. virtual DOM https://reactjs.org/docs/faq-internals.html, render() changes the virtual DOM, not the real DOM.
 
 How does virtual DOm work?
 ```
@@ -162,7 +164,7 @@ e. The screen looks different than it used to.
 
 6. higher order component https://reactjs.org/docs/higher-order-components.html
 
-* type 1
+* type 1 -- return props.children
 
 props.children returns everything between a component's opening and closing tags.
 
@@ -189,7 +191,7 @@ In react 16.2, there is built-in fragment
     <h1>Second Element</h1>
 </>
 ```
-* type 2
+* type 2 -- return a component
 ``` javascript
 import React from 'react';
 const wrapClass=(WrappedComponent,className)=>{
@@ -228,7 +230,7 @@ Greeting.propTypes = {
 
 ref creates a new property of the class
 
-Use for focusing text input.
+Used for focusing text input.
 
 ```jsx
 componentDidMount(){
