@@ -71,12 +71,29 @@ if you want to specify the class name you hope react see as ".active", use "acti
 ```jsx
 <Route path="/:id" exact component={FullPost} /> 
 ```
-8 .<Switch> load the first one that matches, pay attention to the order
-9. Router is all about page stacks, this.props.history.goBack() / push() /…
+8. <Switch> load the first one that matches, pay attention to the order
+      
+9. Router is all about page stacks, `this.props.history.goBack() / push() /…`
+
 10. Nested route: render another component inside one component. Use relative path:
 ```jsx
-   <Route path={this.props.match.url+"/:id"} exact component={FullPost} />
+postSelectedHandler = (id) => {this.props.history.push({pathname:'/posts/'+id});}
+.
+.
+.
+<Post     
+      key={post.id}
+      title={post.title} 
+      author={post.author}
+      clicked={() => this.postSelectedHandler(post.id)} />
+                        
+.
+.
+.
+    
+<Route path={this.props.match.url+"/:id"} exact component={FullPost} />
 ```
+
 11. Redirect the user 
 ```jsx
    <Redirect from="/" to="/posts" />
