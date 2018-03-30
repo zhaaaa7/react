@@ -34,9 +34,24 @@ for (let param of query.entries()){
 
 ```
 
-2. params (values before `?` in the url) are passed in `this.props.match.params`
+
+2. Link `to` set the path the the directed page
+```javascript
+<Link  
+       key={course.id} 
+       to={{
+           pathname:this.props.match.url+'/'+course.id,
+           search:'?title='+course.title
+       }}
+     >
+     <p className="Course">SI{course.id}: {course.title}</p>
+</Link>
+```
+show the component in `Route`, use `:courseId` as a placeholder that is passed as `this.props.match.params`
+```javascript
+<Route path={this.props.match.url+'/:courseId'} component={Course}/>
+```
+params (values before `?` in the url) are passed in `this.props.match.params`
 ```javascript
 <p>You selected the Course with ID: {this.props.match.params.courseId}</p>
 ```
-
-
