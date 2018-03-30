@@ -379,6 +379,7 @@ render();
 ```
 
 3. pass store down 
+
 3-1. with props
 So far we've been creating a variable called store by passing our combined todoApp reducers into Redux's createStore() function:
 ```javascript
