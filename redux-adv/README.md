@@ -85,8 +85,7 @@ export {storeResult,deleteResult} from './result';
 -- Not too much logic in action creator.
 
 3. Use an utility.js file for immutability and a clean switch statement.
-```
-javascript
+```javascript
 export const updateObject=(oldObject,updatedValues)=>{
     return {
         ...oldObject,
