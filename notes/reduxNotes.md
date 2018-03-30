@@ -192,7 +192,7 @@ const todoApp = (state = {}, action) => {
   };
 };
 ```
-The root reducer `todoApp` returns an object which will be assigned to the store. The object has two keys: todos and visibilityFilter. When the store is created, i.e `store=createStore(todoApp)`, it gets a null `{}` action and a 'undefined' state, so that each reducer receive `undefined` as state. As it is in each reducer, the dafaulte state is returned corrosponding to the key is returned. In this case, todos reducer returns `[ ]` as the value of todos key, visibilityFilter returns 'SHOW_ALL' as the value of visibilityFilter key. 
+The root reducer `todoApp` returns an object which will be assigned to the store. The object has two keys: todos and visibilityFilter. When the store is created, i.e `store=createStore(todoApp)`, it gets a null `{}` action and a 'undefined' state, so that each reducer receive `undefined` as state. As it is in each reducer, the dafaulte state is returned corresponding to the key is returned. In this case, todos reducer returns `[ ]` as the value of todos key, visibilityFilter returns 'SHOW_ALL' as the value of visibilityFilter key. 
 
 So as soon as the store is created, the initial state of the whole store is set to:
 ```
@@ -227,10 +227,10 @@ const visibilityFilter=(state='all',action)=>{
 	}
 };
 
-console.log('todoApp:',todoApp());
+console.log('todoApp:',todoApp()); // todoApp: { todos: [], visibilityFilter: 'all' }
 ```
 
-4. combineReducer comes to help you achieve what is done above.
+4. combineReducer comes to help you achieve what is done above: reduce all reducers into an object, and call each of them.
 ```javascript
 const { combineReducers } = Redux; // CDN Redux import
 
@@ -255,7 +255,7 @@ const combineReducers = reducers => { // accepts an object of list of reducer ke
     // Reduce all the keys for reducers from `todos` and `visibilityFilter`
     return Object.keys(reducers).reduce(
       (nextState, key) => {
-        // Call the corresponding reducer function for a given key, and a given part of the state
+        // Call the corresponding reducer function for a given key, and with a corresponding part of the state
         nextState[key] = reducers[key] (state[key],action);
         return nextState;
       },
