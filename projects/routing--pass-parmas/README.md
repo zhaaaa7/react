@@ -15,22 +15,28 @@
 
 ## Some tips
 
-1. url params
+1. url search params
 encoding:  encode the params so that they can be used in url
 ```javascript
 encodeURIComponent
 ```
-decoding: 
+decoding: search params is saved in `this.props.location.search`
 ```javascript
 query=new URLSearchParams(this.props.location.search);
+console.log(query); // an URLSearchParams instance, has a Symbol.iterator: entries()
+
+console.log(query.entries()); // an iterator 
+
+for (let param of query.entries()){ 
+      console.log(param); // return an array ["title", "Database Application"]
+}
+
+
 ```
 
-2.
+2. params (values before `?` in the url) are passed in `this.props.match.params`
 ```javascript
-Object.keys()
+<p>You selected the Course with ID: {this.props.match.params.courseId}</p>
 ```
 
-3.
-```javascript
-[].entries()
-```
+
