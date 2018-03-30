@@ -25,7 +25,8 @@ When hosting, <BrowserRouter basename="my-app">, add basename if deploying in su
 <Route path=‘/’ render={()=><p>homepage</p>}>  renders a function
 <Route path="/" exact component={FullPost} />  renders a component
 ```
-attention: 'path' just check if the route starts with ‘/’, so this route will always be rendered. To make it exactly match, use 'exact' attribute: 
+**Note:** 'path' just check if the route starts with ‘/’, so this route will always be rendered. To make it exactly match, use 'exact' attribute: 
+
 ```jsx
 <Route path=‘/’ exact>
 ```
