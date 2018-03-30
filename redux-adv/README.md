@@ -1,4 +1,9 @@
-demo: https://redux-adv.firebaseapp.com
+### demo: 
+
+https://redux-adv.firebaseapp.com
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cVKiNxsjbQk" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
 
 #### Redux dev tool:  https://github.com/zalmoxisus/redux-devtools-extension
 
