@@ -19,6 +19,7 @@ npm install --save react-router react-router-dom
 1. In App.js, wrap everything with <BrowserRouter> .
       
 When hosting, <BrowserRouter basename="my-app">, add basename if deploying in sub-folder
+      
 2. 
 ```jsx
 <Route path=‘/’ render={()=><p>homepage</p>}>  renders a function
@@ -28,7 +29,9 @@ attention: 'path' just check if the route starts with ‘/’, so this route wil
 ```jsx
 <Route path=‘/’ exact>
 ```
-3. To fix the problem that normal link in react app causes the reloading of the page, <Link> component makes it possible to just render different components inside the app. 
+
+3. To fix the problem that normal link in react app causes the **reloading of the page**, `<Link>` component makes it possible to just render different components inside the app. However, **it is just a `<a>` in real DOM**. You can add styling using `a` tag.
+
 ```jsx
 <Link to={{
       pathname:
@@ -36,24 +39,27 @@ attention: 'path' just check if the route starts with ‘/’, so this route wil
       search:}}
 />
 ```
+      
 4. router returns some special properties 
 <img src="https://github.com/zhaaaa7/react/blob/master/routing/routing.png" width="400px"/>
-They become props of the “container” rendered in <Route>, but don’t pass it down to the embedded children components. To pass those routing related props in the children components of the routed components, pass it as props or use withRouter().
+They become props of the “container” component rendered in <Route>, but don’t pass it down to the embedded children components. To pass those routing related props in the children components of the routed components, pass it as props or use withRouter().
 
-To pass it down from Posts to Post
+* To pass it down from Posts to Post
 In Posts.js
 ```jsx
 <Post
    {… this.props} 
 />
 ```
+* Or in Post.js
 ```javascript
-Or in Post.js
+
 import {withRouter} from 'react-router-dom';
    
 withRouter(post)
 ```
-5. <Link to="" > is always the to the absolute path (appended to the root domain), to use relative path (appended to the current path)
+
+5. `<Link to="" >` is always the to the absolute path (appended to the root domain), to use relative path (appended to the **current path**)
 ```jsx
   <Link to={this.props.match.url+’/new-post’ } />
 ```
@@ -67,7 +73,7 @@ if you want to specify the class name you hope react see as ".active", use "acti
 ```      
 
    
-7. Add placeholder ':' 
+7. Add placeholder ':' , it is used as `this.props.match.params.id` in FullPost component.
 ```jsx
 <Route path="/:id" exact component={FullPost} /> 
 ```
@@ -92,6 +98,19 @@ postSelectedHandler = (id) => {this.props.history.push({pathname:'/posts/'+id});
 .
     
 <Route path={this.props.match.url+"/:id"} exact component={FullPost} />
+```
+
+in FullPost.js, accepting parmas from `this.props.match.params.id`(a string)
+```javascript
+if ( this.props.match.params.id ) {
+      if ( !this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== +this.props.match.params.id) ) {
+          axios.get( '/posts/' + this.props.match.params.id )
+              .then( response => {
+                  console.log(response);
+                  this.setState( { loadedPost: response.data } );
+              } );
+      }
+}
 ```
 
 11. Redirect the user 
