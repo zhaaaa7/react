@@ -121,7 +121,8 @@ Can’t use from if outside of <Switch>
       
 
 * redirect user to /posts page after posting a new post:
-method1:
+
+method1: use a state and conditional rendering
 ```javascript
 import {Redirect} from "react-router-dom";
 .
@@ -164,7 +165,7 @@ return (
 ```
 
 
-method2:
+method2: use `this.props.history.push('/posts')`
 ```javascript
 
 postDataHandler = () => {
