@@ -718,7 +718,7 @@ const addLoggingToDispatch = (store) => {
   };
 };
 ```
-##### middlewares array
+#### middlewares array
 This middlewares array will contain functions to be applied later as a single step.
 
 Now we create a function wrapDispatchWithMiddlewares() that takes the store as the first argument, and the array of middlewares as the second.
@@ -770,7 +770,7 @@ const promise = (store) => (next) => (action) => {
 }
 
 ```
-##### where does next come from?
+#### where does next come from?
 Our middlewares are currently specified in the order in which the dispatch function is overridden, but it would be more natural to specify the **order in which the action propagates through the middlewares**.
 ```javascript
 const configureStore = () => {
