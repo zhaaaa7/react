@@ -36,7 +36,7 @@ for (let param of query.entries()){
 
 
 2. Link `to` set the path the the directed page
-```javascript
+```jsx
 <Link  
        key={course.id} 
        to={{
@@ -48,10 +48,10 @@ for (let param of query.entries()){
 </Link>
 ```
 show the component in `Route`, use `:courseId` as a placeholder that is passed as `this.props.match.params`
-```javascript
+```jsx
 <Route path={this.props.match.url+'/:courseId'} component={Course}/>
 ```
 params (values before `?` in the url) are passed in `this.props.match.params`
-```javascript
+```jsx
 <p>You selected the Course with ID: {this.props.match.params.courseId}</p>
 ```
