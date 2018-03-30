@@ -683,6 +683,7 @@ const configureStore = () => {
 
 
 11. middleware chain
+
 We'll rename rawDispatch to next, because this is the next dispatch function in the chain. `next` refers to the store.dispatch that was returned from **addLoggingToDispatch()**.
 
 ```javascript
