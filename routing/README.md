@@ -41,7 +41,7 @@ attention: 'path' just check if the route starts with ‘/’, so this route wil
 ```
       
 4. router returns some special properties 
-<img src="https://github.com/zhaaaa7/react/blob/master/routing/routing.png" width="400px"/>
+<img src="https://github.com/zhaaaa7/react/blob/master/routing/routingnew.png" width="400px"/>
 They become props of the “container” component rendered in <Route>, but don’t pass it down to the embedded children components. To pass those routing related props in the children components of the routed components, pass it as props or use withRouter().
 
 * To pass it down from Posts to Post
