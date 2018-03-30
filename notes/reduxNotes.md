@@ -46,7 +46,7 @@ const createStore = (reducer) => {
   const subscribe = (listener) => {
     listeners.push(listener);
     return () => {
-      listeners = listeners.filter(l => l !== listener); // const l=store.subscribe(listener1); l();
+      listeners = listeners.filter(l => l !== listener); // usage: const l=store.subscribe(listener1); l();
     }
   };
 
@@ -183,7 +183,8 @@ const visibilityFilter = (
         return state;
     }
 };
-
+```
+```javascript
 const todoApp = (state = {}, action) => {
   return {
      todos: todos(state.todos,action),
@@ -191,8 +192,9 @@ const todoApp = (state = {}, action) => {
   };
 };
 ```
-It returns an object which will be assigned to the store. The object has two keys: todos and visibilityFilter. When the store is created, i.e store=createStore(todoApp), it gets a null '{}' action and 'indefined' state, so that each reducer receive undefined as state. As it is, todos reducer returns `[ ]` as the value of todos key, visibilityFilter returns 'SHOW_ALL' as the value of visibilityFilter key. 
-So as soon as the store is created, the initial state of the whole store is set to 
+The root reducer `todoApp` returns an object which will be assigned to the store. The object has two keys: todos and visibilityFilter. When the store is created, i.e `store=createStore(todoApp)`, it gets a null `{}` action and a 'undefined' state, so that each reducer receive `undefined` as state. As it is in each reducer, the dafaulte state is returned corrosponding to the key is returned. In this case, todos reducer returns `[ ]` as the value of todos key, visibilityFilter returns 'SHOW_ALL' as the value of visibilityFilter key. 
+
+So as soon as the store is created, the initial state of the whole store is set to:
 ```
 {
 todos: [],
@@ -200,7 +202,35 @@ visibilityFilter: 'SHOW_ALL'
 }
 ```
 
-4. combineReducer
+**Here is a simple version about how reducer initiate different part of the state:**
+```javascript
+const todoApp = (state = {}, action) => {
+  return {
+     todos: todos(state.todos,action),
+     visibilityFilter: visibilityFilter(state.visibilityFilter,action)
+  };
+};
+
+const todos=(state=[],action)=>{
+	if (action==='add'){
+		return 1;
+	}else{
+		return state;
+	}
+};
+
+const visibilityFilter=(state='all',action)=>{
+	if (action==='add'){
+		return 1;
+	}else{
+		return state;
+	}
+};
+
+console.log('todoApp:',todoApp());
+```
+
+4. combineReducer comes to help you achieve what is done above.
 ```javascript
 const { combineReducers } = Redux; // CDN Redux import
 
