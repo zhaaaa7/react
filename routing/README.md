@@ -118,6 +118,83 @@ if ( this.props.match.params.id ) {
    <Redirect from="/" to="/posts" />
 ```
 Can’t use from if outside of <Switch>
+      
+
+* redirect user to /posts page after posting a new post:
+method1:
+```javascript
+import {Redirect} from "react-router-dom";
+.
+.
+.
+state = {
+        .
+        .
+        .
+        submited:false
+}
+    
+postDataHandler = () => {
+        const data = {
+            .
+            .
+            .
+        };
+        axios.post('/posts', data)
+            .then(response => {
+                this.setState({submited:true});
+            });
+    }
+    
+let redirect=null;
+if(this.state.submited){
+    redirect=<Redirect to="/posts"/>;
+}
+
+return (
+      <div className="NewPost">
+          {redirect}
+          .
+          .
+          .
+          <button onClick={this.postDataHandler}>Add Post</button>
+       </div>
+      )
+                
+```
+
+
+method2:
+```javascript
+
+postDataHandler = () => {
+        const data = {
+            .
+            .
+            .
+        };
+        axios.post('/posts', data)
+            .then(response => {
+                console.log(response);
+                this.props.history.push('/posts'); //or this.props.history.replace('/posts')
+
+            });
+    }
+.
+.
+.
+return (
+      <div className="NewPost">
+          {redirect}
+          .
+          .
+          .
+          <button onClick={this.postDataHandler}>Add Post</button>
+       </div>
+      )
+
+```
+
    
 12. navigation guards: authentication status
 ```javascript
