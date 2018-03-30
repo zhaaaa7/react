@@ -192,9 +192,9 @@ const todoApp = (state = {}, action) => {
   };
 };
 ```
-The root reducer `todoApp` returns an object which will be assigned to the store. The object has two keys: todos and visibilityFilter. When the store is created, i.e `store=createStore(todoApp)`, it gets a null `{}` action and a 'undefined' state, so that each reducer receive `undefined` as state. As it is in each reducer, the dafaulte state is returned corresponding to the key is returned. In this case, todos reducer returns `[ ]` as the value of todos key, visibilityFilter returns 'SHOW_ALL' as the value of visibilityFilter key. 
+The root reducer `todoApp` returns an object which is the whole **state object** of the store. The object has two keys: todos and visibilityFilter. When the store is created, i.e `store=createStore(todoApp)`, it gets a null `{}` action and a 'undefined' state, so that each reducer receive `undefined` as state. As it is in each reducer, the dafaulte state is returned corresponding to the key is returned. In this case, todos reducer returns `[ ]` as the value of todos key, visibilityFilter returns 'SHOW_ALL' as the value of visibilityFilter key. 
 
-So as soon as the store is created, the initial state of the whole store is set to:
+So as soon as the store is created, the initial state of the whole store is set to the object as below:
 ```
 {
 todos: [],
