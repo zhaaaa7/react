@@ -610,6 +610,9 @@ export const saveState = (state) => {
 };
 ```
 generate random id
+```
+$ npm install --save node-uuid
+```
 ```javascript
 import { v4 } from 'node-uuid'
 
