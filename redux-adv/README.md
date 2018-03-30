@@ -39,26 +39,41 @@ const store=createStore(rootReducer,applyMiddleware(logger,thunk));
 thunk make it possible to return a funtion that dispatch an action inside an action itself. This helps to apply asynchronous dispatching, it can wait and dispatch action whenerver you make it.
 
 
+
+### action creator
+1. Run async code with action creators: a function that returns an action (object). 
+2. thunk lets the action creator not return an action but a function which will then (asynchronously) dispatch another (normal, sync) action.
+
 ```javascript
+//synchronous actionCreator
+const saveResult=(res)=>{
+    //const updatedResult=res*2;
+    return {
+        type:actionTypes.STORE_RESULT,
+        result:res
+    };
+};
+
+//asynchronous actionCreator
 export const storeResult=(res)=>{
-    //middleware runs between a dispatching of an action and the time the action reaches the producer
-    //middleware steps in, block the old action and dispatch it again in the future
-    //redux func passes two params : dispatch func and getState func
     return (dispatch,getState)=>{
         setTimeout(() => {
             //get the current state in central store
             const oldCounter=getState().ctr.counter;
             console.log(oldCounter);
             dispatch(saveResult(res));
-        }, 1000);
-    };    
+        }, 2000);
+    };
+       
 };
 ```
 
-### action creator
-1. Run async code with action creators: a function that returns an action (object). 
-2. thunk lets the action creator not return an action but a function which will then (asynchronously) dispatch another (normal, sync) action.
 3. Use an index.js file to export all action creators
+```javascript
+export {add,subtract,increment,decrement} from './counter';
+
+export {storeResult,deleteResult} from './result';
+```
 
 ### other ...
 1. Where to transform the data before reaching the store? 
