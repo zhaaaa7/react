@@ -201,7 +201,7 @@ return (
 ```javascript
 {this.state.auth?<Route path="/new-post" component={NewPost} /> :null}
 ```
-13.404 condition: catch any unknown url
+13. 404 condition: catch any unknown url
 ```jsx
 <Route render={()=><h1>not found</h1>} />
 ```
