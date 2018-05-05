@@ -1,2 +1,2 @@
 # react
-react projects
+react concepts, notes and projects
