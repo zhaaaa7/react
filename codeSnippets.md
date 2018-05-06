@@ -1,3 +1,5 @@
+1. use getter method
+
 ```jsx
 class Example extends React.Component {
   get greeting() {
@@ -8,11 +10,11 @@ class Example extends React.Component {
   }
 }
 ```
-Note this.state.greeting, 在一个getter method里, 始终是个method
+Note: getter method is a method
 
-
+2. return jsx
 ```jsx
-///Exporter,js
+///Exporter.js
 export function greet(text) {
   return <h1>{text}</h1>;
 }
@@ -20,10 +22,12 @@ export function greet(text) {
 // Importer.js
 import { greet } from './Exporter';
 const h1 = greet('Hello world’);
-
-//h1===<h1>Hello world</h1>
-
 ```
+
+Note: h1===<h1>Hello world</h1>
+
+
+3. React SyntheticEvent also pass event object
 ```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -37,7 +41,6 @@ class Example extends React.Component {
   }
 });
 ReactDOM.render(<Example />, document.getElementById(‘app'));
-
-//An event object is passed as an argument, because logger is being used as an event handler.
-
 ```
+
+Note: An event object is passed as an argument, because logger is being used as an event handler.
