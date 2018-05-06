@@ -24,7 +24,7 @@ import { greet } from './Exporter';
 const h1 = greet('Hello world’);
 ```
 
-Note: h1===<h1>Hello world</h1>
+Note: h1=== `<h1>Hello world</h1>`
 
 
 3. React SyntheticEvent also pass event object
