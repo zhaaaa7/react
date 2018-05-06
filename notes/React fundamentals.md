@@ -1,5 +1,6 @@
-https://juejin.im/post/5a155f906fb9a045284622b4
+## setState
 
+https://juejin.im/post/5a155f906fb9a045284622b4
 
 ```javascript
 class Eg extends Component {
@@ -13,14 +14,14 @@ class Eg extends Component {
 
   componentDidMount () {
     this.setState({value: this.state.value + 1})
-    console.log(this.state.value) // 第一次输出
+    console.log(this.state.value) // first output
     this.setState({value: this.state.value + 1})
-    console.log(this.state.value) // 第二次输出
+    console.log(this.state.value) // second output
     setTimeout(() => {
       this.setState({value: this.state.value + 1})
-      console.log(this.state.value) // 第三次输出
+      console.log(this.state.value) // third output
       this.setState({value: this.state.value + 1})
-      console.log(this.state.value) // 第四次输出
+      console.log(this.state.value) // fourth output
     }, 0)；
         this.refs.button.addEventListener('click', this.click)
   }
@@ -41,4 +42,4 @@ class Eg extends Component {
 
 ```
 
-0 0 2 3
+output: 0 0 2 3
