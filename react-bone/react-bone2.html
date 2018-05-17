@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>React Bone</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+</head>
+<body>
+    <div class="wrapper"></div>
+    <script>
+        const createDOMFromString = (domString) => {
+            const div = document.createElement('div');
+            div.innerHTML = domString;
+            return div;
+        }
+
+        
+        class LikeButton {
+            constructor () {
+                this.state = { isLiked: false };
+            }
+
+            setState (state) {
+                const oldEl = this.el;
+                this.state = state;
+                this.el = this.render();
+                if (this.onStateChange) this.onStateChange(oldEl, this.el);
+            }
+
+            changeLikeText () {
+                this.setState({
+                    isLiked: !this.state.isLiked
+                })
+            }
+
+            render () {
+            this.el = createDOMFromString(`
+                <button class='like-btn'>
+                <span class='like-text'>${this.state.isLiked ? 'Cancel' : 'Like'}</span>
+                <span>👍</span>
+                </button>
+            `);
+            this.el.addEventListener('click', this.changeLikeText.bind(this), false);
+            return this.el;
+            }
+        }
+
+        const wrapper = document.querySelector('.wrapper');
+
+        
+        const likeButton = new LikeButton()
+            wrapper.appendChild(likeButton.render()); // insert the new button into DOM
+            likeButton.onStateChange = (oldEl, newEl) => {
+                wrapper.insertBefore(newEl, oldEl); // insert updatd button
+                wrapper.removeChild(oldEl); // delete old button
+        }
+
+
+        
+
+    </script>
+</body>
+</html>
