@@ -4,7 +4,7 @@ https://segmentfault.com/a/1190000011699963
 
 <img src="https://github.com/zhaaaa7/react/blob/master/react-bone/btn.gif" alt="button component">
 
-### a web component
+## a web component
 1. createDOMFromString is a function that accepts a DOM string and returns the created HTML object
 ```javascript
  const createDOMFromString = (domString) => {
@@ -46,7 +46,7 @@ const likeButton1 = new LikeButton();
 wrapper.appendChild(likeButton1.render());
 ```
 
-### optimize DOM manipulation
+## optimize DOM manipulation
 * event handler will call the callback that change the state: `setState`
 * `render` is called once the state is changed and a new HTML element with the new DOM string is created
 * `setState` will call the `onStateChange`
@@ -97,7 +97,7 @@ const likeButton = new LikeButton()
 ```
  
   
- ### extract resuable methods and create a parent class
+ ## extract resuable methods and create a parent class
  1. Component class
  * `props` is to accept customized arguments
  * `_renderDOM` is a private method which will produce the HTML element, so `render` just accept a DOM string
