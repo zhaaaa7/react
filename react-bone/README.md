@@ -2,7 +2,7 @@ http://huziketang.mangojuice.top/books/react/lesson1
 
 https://segmentfault.com/a/1190000011699963
 
-<img src="" alt="button component">
+<img src="https://github.com/zhaaaa7/react/blob/master/react-bone/btn.gif" alt="button component">
 
 ### a web component
 1. createDOMFromString is a function that accepts a DOM string and returns the created HTML object
