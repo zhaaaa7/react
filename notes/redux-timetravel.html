@@ -32,6 +32,9 @@
     </div>
     
     <script>
+        // click body => dispatch SET_RGB action => set new state and call each listener (saveTimeline saves all state) 
+        // => click previous/next, set store state with desired rgb in timeline array 
+        // => call each listener expect for the laste one (saveTimeline )
         const textNode=document.getElementById('background');
         const timeLineNode=document.getElementById('timeline');
 
