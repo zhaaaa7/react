@@ -19,6 +19,8 @@ https://redux-b06c9.firebaseapp.com
 
 7. `connect` is a function that returns higher order component
 
+8. `combineReducers` is a helper function that mergers reducers
+
 
 ## Set up
 1. install packages
