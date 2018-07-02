@@ -15,6 +15,11 @@ https://redux-b06c9.firebaseapp.com
 * Reducer check the type of action and then define a block code regarding that type of action. 
 * Components subscribe to central storage store and then get the updated state as props.
 
+6. `<Provider>` a helper component ejcting store into react component
+
+7. `connect` is a function that returns higher order component
+
+
 ## Set up
 1. install packages
 ```
