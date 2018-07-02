@@ -103,8 +103,11 @@ results:state.results.concat({id:new Date(),value:action.result})
 ```
 
 5. What type of state should be controlled in redux?
+
 Local UI state : often not
+
 Persistent state: often in backend server, may store some related slices in redux
+
 Client state: user authenticated? User preference? In redux!
 
 ## tricks
