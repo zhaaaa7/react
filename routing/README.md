@@ -104,7 +104,12 @@ postSelectedHandler = (id) => {this.props.history.push({pathname:'/posts/'+id});
     
 <Route path={this.props.match.url+"/:id"} exact component={FullPost} />
 ```
-
+when you clicking on different posts, the FullPost component won't update, you need to fetch the new data in componentDidUpdate
+```javascript
+componentDidUpdate(){
+      loadData()
+}
+```
 in FullPost.js, accepting parmas from `this.props.match.params.id`(a string)
 ```javascript
 if ( this.props.match.params.id ) {
