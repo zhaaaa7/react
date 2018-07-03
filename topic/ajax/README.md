@@ -63,4 +63,6 @@ if (!this.state.error){
    });
 }
         
-``
+```
+
+7. you can create an axios instance and set unique settings 
