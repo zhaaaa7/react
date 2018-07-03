@@ -20,7 +20,7 @@ npm install --save react-router react-router-dom
 ```
 
 ## Details
-1. In App.js, wrap everything with <BrowserRouter> .
+1. In App.js, wrap everything with `<BrowserRouter>` .
       
 When hosting, <BrowserRouter basename="my-app">, add basename if deploying in sub-folder
       
