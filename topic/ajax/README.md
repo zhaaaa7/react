@@ -7,9 +7,8 @@ https://ajax-32025.firebaseapp.com
 2. Fake api https://jsonplaceholder.typicode.com 
 
 3. axios is used to make http requests https://github.com/axios/axios
-    * Axios interceptor can be used to add some behavior, such as adding some authentication header
-    
-    * in componentWillUnMount(), remove axios.interceptor to avoid memory leak
+* Axios interceptor can be used to add some behavior, such as adding some authentication header   
+* in componentWillUnMount(), remove axios.interceptor to avoid memory leak
     
 4. componentDidMount() is usually where http requests always happens
 ```javascript
